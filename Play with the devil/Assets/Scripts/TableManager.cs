@@ -8,9 +8,10 @@ public class TableManager : MonoBehaviour
     [SerializeField] private int column = 1;
     [SerializeField] private Vector2 gap = new Vector2(0.2f, 0.2f);
     [SerializeField] private Vector2 cardSize = Vector2.one;
+    [SerializeField] private Card cardPref;
 
     private List<Vector2> cells = new List<Vector2>();
-
+    private List<Card> cards = new List<Card>();
     private void Awake()
     {
         Vector2 cardDistance = new Vector2(cardSize.x + gap.x, cardSize.y + gap.y);
@@ -19,6 +20,16 @@ public class TableManager : MonoBehaviour
             for (int j = 0; j < column; j++)
             {
                 cells.Add(new Vector2(cardDistance.x * (j - (column - 1) / 2f), cardDistance.y * (i - (row - 1) / 2f)));
+            }
+        }
+    }
+    private void Start()
+    {
+        if (cells != null)
+        {
+            foreach (var cell in cells)
+            {
+                cards.Add(Instantiate(cardPref, cell, Quaternion.identity, transform));
             }
         }
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Animator animator;
     [SerializeField] private Sprite backSprite;
     [SerializeField] private Sprite frontSprite;
     [SerializeField] private bool isFaceDown;
@@ -21,6 +22,7 @@ public class Card : MonoBehaviour
     public void TurnCardUp()
     {
         isFaceDown = false;
+        animator.SetTrigger("TurnUp");
         spriteRenderer.sprite = frontSprite;
     }
 
