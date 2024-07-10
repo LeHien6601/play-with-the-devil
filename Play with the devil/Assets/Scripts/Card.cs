@@ -10,13 +10,24 @@ public class Card : MonoBehaviour
     [SerializeField] private Sprite frontSprite;
     [SerializeField] private bool isFaceDown;
     [SerializeField] private Vector2 cardSize;
+    [SerializeField] private Canvas canvas;
+    private float timer = 0f;
+    private bool isShowDes = false;
+    private Vector3 initialScale;
     private void Awake()
     {
         spriteRenderer.sprite = (isFaceDown) ? backSprite : frontSprite;
+        canvas.worldCamera = Camera.main;
+        initialScale = gameObject.transform.localScale;
     }
     public void SelectCard()
     {
 
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T)) { TurnCardUp(); }
     }
 
     public void TurnCardUp()
@@ -25,13 +36,13 @@ public class Card : MonoBehaviour
         animator.SetTrigger("TurnUp");
         spriteRenderer.sprite = frontSprite;
     }
-
-    private void OnMouseDown()
+    private void OnMouseEnter()
     {
-        Debug.Log("Click mouse on card");
-        if (isFaceDown)
-        {
-            TurnCardUp();
-        }
+        transform.localScale = initialScale * 1.05f;
+        //play sfx
+    }
+    private void OnMouseExit()
+    {
+        transform.localScale = initialScale;
     }
 }
