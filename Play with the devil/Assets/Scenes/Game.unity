@@ -635,7 +635,10 @@ MonoBehaviour:
   column: 3
   gap: {x: 0.5, y: 0.5}
   cardSize: {x: 1.6, y: 1.6}
-  cardPref: {fileID: 9178318112028951411, guid: 15c5589419f932b49b421f017af13a64, type: 3}
+  cardPref: {fileID: 4157700517684127407, guid: 18b4b3831911ba64abbfc582ecfd6d61, type: 3}
+  startPosition: {x: -5, y: -4}
+  gapFunctionalCard: 0.2
+  functionalCardPref: {fileID: -8084381049020879118, guid: 137a918ad93a7c243bd7c186741e3b95, type: 3}
 --- !u!212 &1834908035
 SpriteRenderer:
   m_ObjectHideFlags: 0
