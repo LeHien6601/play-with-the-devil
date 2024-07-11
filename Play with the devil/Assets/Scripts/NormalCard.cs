@@ -21,4 +21,20 @@ public class NormalCard : Card
     public bool IsFake() { return isFake; }
     public int GetNumber() { return numberContent; }
     public bool IsNumber() { return isNumber; }
+
+
+    private void OnMouseDown()
+    {
+        this.isSelected = !isSelected;
+        if (isSelected)
+        {
+            GetComponentInParent<TableManager>().SelectCell(this);
+            border.SetActive(true);
+        }
+        else
+        {
+            GetComponentInParent<TableManager>().DeselectCell(this);
+            border.SetActive(false);
+        }
+    }
 }

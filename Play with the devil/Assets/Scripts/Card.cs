@@ -11,16 +11,14 @@ public class Card : MonoBehaviour
     [SerializeField] private bool isFaceDown;
     [SerializeField] private Vector2 cardSize;
     [SerializeField] private Canvas canvas;
+    [SerializeField] protected GameObject border;
+    protected bool isSelected = false;
     private Vector3 initialScale;
     private void Awake()
     {
         spriteRenderer.sprite = (isFaceDown) ? backSprite : frontSprite;
         canvas.worldCamera = Camera.main;
         initialScale = gameObject.transform.localScale;
-    }
-    public void SelectCard()
-    {
-
     }
 
     private void Update()
@@ -34,6 +32,12 @@ public class Card : MonoBehaviour
         animator.SetTrigger("TurnUp");
         spriteRenderer.sprite = frontSprite;
     }
+    public void Deselect()
+    {
+        isSelected = false;
+        border.SetActive(false);
+        transform.localScale = initialScale;
+    }
     private void OnMouseEnter()
     {
         transform.localScale = initialScale * 1.05f;
@@ -41,6 +45,6 @@ public class Card : MonoBehaviour
     }
     private void OnMouseExit()
     {
-        transform.localScale = initialScale;
+        if (!isSelected) { transform.localScale = initialScale; }
     }
 }

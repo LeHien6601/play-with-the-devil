@@ -59,4 +59,19 @@ public class FuntionalCard : Card
             default: return true;
         }
     }
+
+    private void OnMouseDown()
+    {
+        this.isSelected = !isSelected;
+        if (isSelected)
+        {
+            GetComponentInParent<TableManager>().SelectFunctionalCell(this);
+            border.SetActive(true);
+        }
+        else
+        {
+            GetComponentInParent<TableManager>().DeselectFunctionalCell(this);
+            border.SetActive(false);
+        }
+    }
 }
