@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.U2D.Aseprite;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TableManager : MonoBehaviour
 {
@@ -21,8 +23,13 @@ public class TableManager : MonoBehaviour
     [SerializeField] private int numberOfFakeCards;
     [SerializeField] private int numberOfFunctionalCards;
 
+    [Header("UI")]
+    [SerializeField] private Button ansBtn;
+    [SerializeField] private Button useBtn;
+    [SerializeField] private TextMeshProUGUI numFakeCardsTMP;
+
     private List<Cell> cells = new List<Cell>();
-    [SerializeField]public List<Cell> selectedCells = new List<Cell>();
+    private List<Cell> selectedCells = new List<Cell>();
     private List<Cell> functionalCells = new List<Cell>();
     private Cell selectedFunctionalCell = null;
 
@@ -42,10 +49,25 @@ public class TableManager : MonoBehaviour
     {
         SetUpNormalCards();
         SetUpFunctionalCards();
+        numFakeCardsTMP.text = "Number of fake cards: " + numberOfFakeCards.ToString();
     }
-    private void Start()
+
+    private void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            StartCoroutine(TurnAllNormalCardsUp(0.1f));
+        }
+    }
+    
+    private IEnumerator TurnAllNormalCardsUp(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        foreach (Cell cell in cells)
+        {
+            cell.card.TurnCard(true);
+            yield return new WaitForSeconds(delay);
+        }
     }
 
     private void SetUpNormalCards()
@@ -107,6 +129,8 @@ public class TableManager : MonoBehaviour
             selectedCells.RemoveAt(0);
         }
         selectedCells.Add(selectedCell);
+        CheckAnswerButtonCondition();
+        CheckUseCardButtonCondition();
     }
 
     public void DeselectCell(Card card)
@@ -124,6 +148,8 @@ public class TableManager : MonoBehaviour
         if (selectedCells.Count == 0) return;
         deselectedCell.card.Deselect();
         selectedCells.Remove(deselectedCell);
+        CheckAnswerButtonCondition();
+        CheckUseCardButtonCondition();
     }
 
     public void SelectFunctionalCell(Card card)
@@ -144,6 +170,8 @@ public class TableManager : MonoBehaviour
             selectedFunctionalCell.card.Deselect();
             selectedFunctionalCell = selectedCell;
         }
+        CheckUseCardButtonCondition();
+        CheckAnswerButtonCondition();
     }
 
     public void DeselectFunctionalCell(Card card)
@@ -151,14 +179,40 @@ public class TableManager : MonoBehaviour
         Cell deselectedCell = null;
         for (int i = 0; i < functionalCells.Count; i++)
         {
-            if (card == cells[i].card)
+            if (card == functionalCells[i].card)
             {
-                deselectedCell = cells[i];
+                deselectedCell = functionalCells[i];
                 break;
             }
         }
         if (selectedFunctionalCell != deselectedCell) return;
         selectedFunctionalCell.card.Deselect();
         selectedFunctionalCell = null;
+        CheckUseCardButtonCondition();
+        CheckAnswerButtonCondition();
+    }
+
+    private void CheckAnswerButtonCondition()
+    {
+        if (selectedCells.Count == numberOfFakeCards && selectedFunctionalCell == null)
+        {
+            ansBtn.interactable = true;
+        }
+        else
+        {
+            ansBtn.interactable = false;
+        }
+    }
+
+    private void CheckUseCardButtonCondition()
+    {
+        if (selectedCells.Count == 1 && selectedFunctionalCell != null)
+        {
+            useBtn.interactable = true;
+        }
+        else
+        {
+            useBtn.interactable = false;
+        }
     }
 }

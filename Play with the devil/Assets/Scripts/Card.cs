@@ -20,17 +20,11 @@ public class Card : MonoBehaviour
         canvas.worldCamera = Camera.main;
         initialScale = gameObject.transform.localScale;
     }
-
-    private void Update()
+    public void TurnCard(bool up)
     {
-        if (Input.GetKeyDown(KeyCode.T)) { TurnCardUp(); }
-    }
-
-    public void TurnCardUp()
-    {
-        isFaceDown = false;
-        animator.SetTrigger("TurnUp");
-        spriteRenderer.sprite = frontSprite;
+        isFaceDown = !up;
+        animator.SetTrigger("Turn");
+        spriteRenderer.sprite = up ? frontSprite : backSprite;
     }
     public void Deselect()
     {
