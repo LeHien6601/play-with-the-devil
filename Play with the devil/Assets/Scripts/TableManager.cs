@@ -27,6 +27,8 @@ public class TableManager : MonoBehaviour
     [SerializeField] private Button ansBtn;
     [SerializeField] private Button useBtn;
     [SerializeField] private TextMeshProUGUI numFakeCardsTMP;
+    [SerializeField] private Clock clock;
+    
 
     private List<Cell> cells = new List<Cell>();
     private List<Cell> selectedCells = new List<Cell>();
@@ -129,10 +131,11 @@ public class TableManager : MonoBehaviour
             }
         }
         //Start clock
-        yield return new WaitForSeconds(10f);
+        StartCoroutine(clock.TriggerClock(10f));
+        yield return new WaitForSeconds(11f);
         //End clock
-        //Turn down to hide from player
         //Shuffle cell's position
+        //Turn down to hide from player
         ShuffleNormalCards();
         foreach (Cell cell in cells)
         {
