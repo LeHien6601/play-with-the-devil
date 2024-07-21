@@ -24,6 +24,8 @@ public class FunctionalCard : Card
         this.value = value;
         this.isNumber = int.TryParse(value, out numberValue);
         this.color = color;
+        this.contentTMP.color = color;
+        this.contentTMP.text = content;
     }
 
     public enum FunctionType
@@ -81,26 +83,26 @@ public class FunctionalCard : Card
         }
     }
 
-    public FunctionalCard CreateRandomFunctionalCard(int limitContent, int limitColor)
+    public void CreateRandomFunctionalCard(int limitContent, int limitColor)
     {
         if (limitColor > 1)
         {
             int index = Random.Range(0, 10);
             if (index == 0)
             {
-                return CreateFunctionalFakeCard();
+                CreateFunctionalFakeCard();
             }
             else if (index >= 1 && index <= 3)
             {
-                return CreateFunctionalLetterCard(limitContent);
+                CreateFunctionalLetterCard(limitContent);
             }
             else if (index >= 4 && index <= 6)
             {
-                return CreateFunctionalNumberCard(limitContent);
+                CreateFunctionalNumberCard(limitContent);
             }
             else
             {
-                return CreateFunctionalColorCard(limitColor);
+                CreateFunctionalColorCard(limitColor);
             }
         }
         else
@@ -108,42 +110,34 @@ public class FunctionalCard : Card
             int index = Random.Range(0, 9);
             if (index == 0)
             {
-                return CreateFunctionalFakeCard();
+                CreateFunctionalFakeCard();
             }
             else if (index >= 1 && index <= 4)
             {
-                return CreateFunctionalLetterCard(limitContent);
+                CreateFunctionalLetterCard(limitContent);
             }
             else
             {
-                return CreateFunctionalNumberCard(limitContent);
+                CreateFunctionalNumberCard(limitContent);
             }
         }
     }
-    public FunctionalCard CreateFunctionalLetterCard(int limitContent)
+    public void CreateFunctionalLetterCard(int limitContent)
     {
-        FunctionalCard card = new FunctionalCard();
-        card.UpdateData(GetRandomFunctionType(), GetRandomLetter(limitContent), Color.magenta);
-        return card;
+        UpdateData(GetRandomFunctionType(), GetRandomLetter(limitContent), Color.magenta);
     }
-    public FunctionalCard CreateFunctionalNumberCard(int limitContent)
+    public void CreateFunctionalNumberCard(int limitContent)
     {
-        FunctionalCard card = new FunctionalCard();
-        card.UpdateData(GetRandomFunctionType(), GetRandomNumber(limitContent), Color.magenta);
-        return card;
+        UpdateData(GetRandomFunctionType(), GetRandomNumber(limitContent), Color.magenta);
     }
-    public FunctionalCard CreateFunctionalColorCard(int limitColor)
+    public void CreateFunctionalColorCard(int limitColor)
     {
-        FunctionalCard card = new FunctionalCard();
         Color color = GetRandomColor(limitColor);
-        card.UpdateData(FunctionType.Is, GetColorName(color), color);
-        return card;
+        UpdateData(FunctionType.Is, GetColorName(color), color);
     }
-    public FunctionalCard CreateFunctionalFakeCard()
+    public void CreateFunctionalFakeCard()
     {
-        FunctionalCard card = new FunctionalCard();
-        card.UpdateData(FunctionType.IsFake, "Is fake", Color.gray);
-        return card;
+        UpdateData(FunctionType.IsFake, "Is fake", Color.gray);
     }
 
     public FunctionType GetRandomFunctionType()

@@ -14,6 +14,12 @@ public class NormalCard : Card
         this.isFake = isFake;
         this.isNumber = int.TryParse(content, out numberContent);
         this.color = color;
+        this.contentTMP.text = content;
+        this.contentTMP.color = color;
+        if (isFake)
+        {
+            this.contentTMP.fontSize = 0.55f;
+        }
     }
     public string GetContent()
     {
@@ -39,18 +45,14 @@ public class NormalCard : Card
             border.SetActive(false);
         }
     }
-    public NormalCard CreateRandomFakeCard()
+    public void CreateRandomFakeCard()
     {
         int index = Random.Range(0, 2);
-        NormalCard card = new NormalCard();
-        card.UpdateData((index == 0) ? "False" : "True", true, GetRandomColor(1));
-        return card;
+        UpdateData((index == 0) ? "False" : "True", true, GetRandomColor(1));
     }
-    public NormalCard CreateRandomNormalCard(int limitContent, int limitColor)
+    public void CreateRandomNormalCard(int limitContent, int limitColor)
     {
         int index = Random.Range(0, 2);
-        NormalCard card = new NormalCard();
-        card.UpdateData((index == 0) ? GetRandomLetter(limitContent) : GetRandomNumber(limitContent), false, GetRandomColor(limitColor));
-        return card;
+        UpdateData((index == 0) ? GetRandomLetter(limitContent) : GetRandomNumber(limitContent), false, GetRandomColor(limitColor));
     }
 }

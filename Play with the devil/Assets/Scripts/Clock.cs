@@ -23,9 +23,10 @@ public class Clock : MonoBehaviour
     }
     public IEnumerator TriggerClock(float time)
     {
+        clockTMP.text = "";
         animator.enabled = true;
         animator.SetBool("Show", true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.2f);
         timer = time;
         yield return new WaitForSeconds(time + 1);
         animator.SetBool("Show", false);

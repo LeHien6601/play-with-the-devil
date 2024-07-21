@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ public class Card : MonoBehaviour
     [SerializeField] private Vector2 cardSize;
     [SerializeField] private Canvas canvas;
     [SerializeField] protected GameObject border;
+    [SerializeField] protected TextMeshProUGUI contentTMP;
     public bool isSelectable = false;
     protected bool isSelected = false;
     protected Color color = Color.white;

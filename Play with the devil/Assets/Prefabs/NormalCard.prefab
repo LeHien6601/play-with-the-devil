@@ -184,6 +184,44 @@ MonoBehaviour:
   cardSize: {x: 1.6, y: 1.6}
   canvas: {fileID: 1525984147104272770}
   border: {fileID: 730894302956347014}
+  contentTMP: {fileID: 771644769352886954}
+  isSelectable: 0
+  cardLetters:
+  - A
+  - B
+  - C
+  - D
+  - E
+  - F
+  - G
+  - H
+  - I
+  - J
+  cardNumbers:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  cardColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
+  cardColorNames:
+  - White
+  - Green
+  - Blue
+  - Yellow
+  - Red
+  - Black
 --- !u!1001 &2253162914478355316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -195,6 +233,18 @@ PrefabInstance:
     - target: {fileID: 1178857717613760940, guid: 835eb350fd8893941a144f544a3be2d4, type: 3}
       propertyPath: m_Name
       value: CardDisplay
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581248834611304926, guid: 835eb350fd8893941a144f544a3be2d4, type: 3}
+      propertyPath: m_text
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581248834611304926, guid: 835eb350fd8893941a144f544a3be2d4, type: 3}
+      propertyPath: m_fontSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581248834611304926, guid: 835eb350fd8893941a144f544a3be2d4, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7094440034527805331, guid: 835eb350fd8893941a144f544a3be2d4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -241,6 +291,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 835eb350fd8893941a144f544a3be2d4, type: 3}
+--- !u!114 &771644769352886954 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1581248834611304926, guid: 835eb350fd8893941a144f544a3be2d4, type: 3}
+  m_PrefabInstance: {fileID: 2253162914478355316}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!223 &1525984147104272770 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 750330668761211638, guid: 835eb350fd8893941a144f544a3be2d4, type: 3}

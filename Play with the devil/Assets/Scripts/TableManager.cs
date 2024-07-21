@@ -18,10 +18,16 @@ public class TableManager : MonoBehaviour
     [SerializeField] private FunctionalCard functionalCardPref;
 
     [Header("Game's information")]
-    [SerializeField] private int row = 1;
-    [SerializeField] private int column = 1;
-    [SerializeField] private int numberOfFakeCards;
-    [SerializeField] private int numberOfFunctionalCards;
+    [SerializeField] private LevelData levelData;
+    private int row = 1;
+    private int column = 1;
+    private int numberOfFakeCards;
+    private int numberOfFunctionalCards;
+    private int limitContent;
+    private int limitColor;
+    private float showCardTime;
+    private int numberOfSwapedPairs;
+    private int numberOfSouls;
 
     [Header("UI")]
     [SerializeField] private Button ansBtn;
@@ -49,27 +55,34 @@ public class TableManager : MonoBehaviour
 
     private void Awake()
     {
+        UpdateLevelData();
         SetUpNormalCards();
         SetUpFunctionalCards();
         numFakeCardsTMP.text = "Number of fake cards: " + numberOfFakeCards.ToString();
     }
+    private void UpdateLevelData()
+    {
+        row = levelData.row;
+        column = levelData.column;
+        numberOfFakeCards = levelData.numberOfFakeCards;
+        numberOfFunctionalCards = levelData.numberOfFunctionalCards;
+        limitColor = levelData.limitColor;
+        limitContent = levelData.limitContent;
+        showCardTime = levelData.showCardTime;
+        numberOfSwapedPairs = levelData.numberOfSwapedPairs;
+        numberOfSouls = levelData.numberOfSouls;
+    }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            //StartCoroutine(TurnAllNormalCardsUp(0.1f));
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            StartCoroutine(DealNormalCards());
-        }
-        else if (Input.GetKeyDown(KeyCode.K))
-        {
-            StartCoroutine(SwapMultiplePairOfNormalCards(11));
+            StartCoroutine(SwapMultiplePairOfNormalCards(numberOfSwapedPairs));
         }
     }
-    
+
+
+    //Turn up/down cards
     private IEnumerator TurnAllNormalCards(float delay, bool up)
     {
         yield return new WaitForSeconds(delay);
@@ -79,6 +92,18 @@ public class TableManager : MonoBehaviour
             yield return new WaitForSeconds(delay);
         }
     }
+    private IEnumerator TurnAllFunctionalCards(float delay, bool up)
+    {
+        yield return new WaitForSeconds(delay);
+        foreach (Cell cell in functionalCells)
+        {
+            cell.card.TurnCard(up);
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+
+    //      Set up normal cards
 
     private void SetUpNormalCards()
     {
@@ -88,10 +113,19 @@ public class TableManager : MonoBehaviour
             for (int j = 0; j < column; j++)
             {
                 Vector2 position = new Vector2(cardDistance.x * (j - (column - 1) / 2f), cardDistance.y * (i - (row - 1) / 2f));
-                Card card = Instantiate(cardPref, transform.position, Quaternion.identity, transform);
+                NormalCard card = Instantiate(cardPref, transform.position, Quaternion.identity, transform);
+                if (cells.Count < numberOfFakeCards)
+                {
+                    card.CreateRandomFakeCard();
+                }
+                else
+                {
+                    card.CreateRandomNormalCard(limitContent, limitColor);
+                }
                 cells.Add(new Cell(true, card, position));
             }
         }
+        StartCoroutine(DealNormalCards());
     }
     private IEnumerator DealNormalCards()
     {
@@ -133,8 +167,8 @@ public class TableManager : MonoBehaviour
         //Turn up to show for player
         StartCoroutine(TurnAllNormalCards(0.1f, true));
         //Start clock
-        StartCoroutine(clock.TriggerClock(10f));
-        yield return new WaitForSeconds(11f);
+        StartCoroutine(clock.TriggerClock(showCardTime));
+        yield return new WaitForSeconds(showCardTime + 1);
         //Turn down to hide from player
         StartCoroutine(TurnAllNormalCards(0.1f, false));
         yield return new WaitForSeconds(1f);
@@ -190,16 +224,6 @@ public class TableManager : MonoBehaviour
             cards.RemoveAt(randomIndex);
         }
     }
-    private void SetUpFunctionalCards()
-    {
-        float cardDistance = gapFunctionalCard + cardSize.x;
-        for (int i = 0; i < 5; i++)
-        {
-            Vector2 position = new Vector2(startPosition.x + i * cardDistance, startPosition.y);
-            Card card = Instantiate(functionalCardPref, position, Quaternion.identity, transform);
-            functionalCells.Add(new Cell(true, card, position));
-        }
-    }
     
     private IEnumerator SwapMultiplePairOfNormalCards(int times)
     {
@@ -240,21 +264,65 @@ public class TableManager : MonoBehaviour
         cells[index2].card.FlyFromTo(cells[index2].card.transform.position, cells[index2].position, 2);
     }
 
-    private void OnDrawGizmos()
+
+
+    //      Set up functional cards
+
+    private void SetUpFunctionalCards()
     {
-        if (cells == null) return;
-        Gizmos.color = Color.green;
-        foreach (Cell cell in cells)
+        float cardDistance = gapFunctionalCard + cardSize.x;
+        for (int i = 0; i < numberOfFunctionalCards; i++)
         {
-            Gizmos.DrawWireCube(cell.position, cardSize);
+            Vector2 position = new Vector2(startPosition.x + i * cardDistance, startPosition.y);
+            FunctionalCard card = Instantiate(functionalCardPref, startPosition, Quaternion.identity, transform);
+            card.CreateRandomFunctionalCard(limitContent, limitColor);
+            functionalCells.Add(new Cell(true, card, position));
         }
-        if (functionalCells == null) return;
-        Gizmos.color = Color.blue;
+        StartCoroutine(DealFunctionalCards());
+    }
+    private IEnumerator DealFunctionalCards()
+    {
+        //Turn off selectable ability for functional cards
         foreach (Cell cell in functionalCells)
         {
-            Gizmos.DrawWireCube(cell.position, cardSize);
+            if (cell.containCard)
+            {
+                cell.card.isSelectable = false;
+            }
+        }
+        //Wait for normal cards
+        yield return new WaitForSeconds(15f + showCardTime);
+        //Start functional cards's animation
+        foreach (Cell cell in functionalCells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.Rotate(Random.Range(0f, 2f));
+            }
+        }
+        yield return new WaitForSeconds(3f);
+        //Move to cell's position
+        foreach (Cell cell in functionalCells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.FlyFromTo(startPosition, cell.position, 1f);
+            }
+        }
+        //Turn up functional cards to show for player
+        StartCoroutine(TurnAllFunctionalCards(0.1f, true));
+        yield return new WaitForSeconds(2f);
+        //Turn on selectable ability for functional cards
+        foreach (Cell cell in functionalCells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.isSelectable = true;
+            }
         }
     }
+
+    //      Select and deselect card
 
     public void SelectCell(Card card)
     {
@@ -337,6 +405,9 @@ public class TableManager : MonoBehaviour
         CheckAnswerButtonCondition();
     }
 
+
+    //      UI's conditions
+
     private void CheckAnswerButtonCondition()
     {
         if (selectedCells.Count == numberOfFakeCards && selectedFunctionalCell == null)
@@ -358,6 +429,21 @@ public class TableManager : MonoBehaviour
         else
         {
             useBtn.interactable = false;
+        }
+    }
+    private void OnDrawGizmos()
+    {
+        if (cells == null) return;
+        Gizmos.color = Color.green;
+        foreach (Cell cell in cells)
+        {
+            Gizmos.DrawWireCube(cell.position, cardSize);
+        }
+        if (functionalCells == null) return;
+        Gizmos.color = Color.blue;
+        foreach (Cell cell in functionalCells)
+        {
+            Gizmos.DrawWireCube(cell.position, cardSize);
         }
     }
 }
