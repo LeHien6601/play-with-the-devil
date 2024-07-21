@@ -58,6 +58,14 @@ public class TableManager : MonoBehaviour
         {
             StartCoroutine(TurnAllNormalCardsUp(0.1f));
         }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            StartCoroutine(DealNormalCards());
+        }
+        else if (Input.GetKeyDown(KeyCode.K))
+        {
+            StartCoroutine(SwapMultiplePairOfNormalCards(11));
+        }
     }
     
     private IEnumerator TurnAllNormalCardsUp(float delay)
@@ -83,7 +91,100 @@ public class TableManager : MonoBehaviour
             }
         }
     }
-
+    private IEnumerator DealNormalCards()
+    {
+        //Start from center
+        foreach (Cell cell in cells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.transform.position = transform.position;
+            }
+        }
+        yield return new WaitForSeconds(2);
+        //Shuffle
+        for (int i = 0; i < cells.Count; i++)
+        {
+            if (cells[i].containCard)
+            {
+                cells[i].card.Rotate(2 * (float)(i + 1) / cells.Count);
+            }
+        }
+        yield return new WaitForSeconds(3f);
+        //Move to cell
+        foreach (Cell cell in cells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.FlyFromTo(transform.position, cell.position, 2f);
+            }
+        }
+        yield return new WaitForSeconds(2.5f);
+        //Turn up to show for player
+        foreach (Cell cell in cells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.TurnCard(true);
+            }
+        }
+        //Start clock
+        yield return new WaitForSeconds(10f);
+        //End clock
+        //Turn down to hide from player
+        //Shuffle cell's position
+        ShuffleNormalCards();
+        foreach (Cell cell in cells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.TurnCard(false);
+            }
+        }
+        yield return new WaitForSeconds(1f);
+        //Move to center
+        foreach (Cell cell in cells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.FlyFromTo(cell.position, transform.position, 2f);
+            }
+        }
+        yield return new WaitForSeconds(2.5f);
+        //Shuffle
+        for (int i = 0; i < cells.Count; i++)
+        {
+            if (cells[i].containCard)
+            {
+                cells[i].card.Rotate(2 * (float)(i + 1) / cells.Count);
+            }
+        }
+        yield return new WaitForSeconds(3f);
+        //Shuffle cell's position
+        ShuffleNormalCards();
+        //Move to new cell
+        foreach (Cell cell in cells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.FlyFromTo(transform.position, cell.position, 2f);
+            }
+        }
+    }
+    private void ShuffleNormalCards()
+    {
+        List<Card> cards = new List<Card>();
+        foreach (Cell cell in cells)
+        {
+            if (cell.containCard) cards.Add(cell.card);
+        }
+        foreach (Cell cell in cells)
+        {
+            int randomIndex = Random.Range(0, cards.Count);
+            cell.card = cards[randomIndex];
+            cards.RemoveAt(randomIndex);
+        }
+    }
     private void SetUpFunctionalCards()
     {
         float cardDistance = gapFunctionalCard + cardSize.x;
@@ -93,6 +194,29 @@ public class TableManager : MonoBehaviour
             Card card = Instantiate(functionalCardPref, position, Quaternion.identity, transform);
             functionalCells.Add(new Cell(true, card, position));
         }
+    }
+    
+    private IEnumerator SwapMultiplePairOfNormalCards(int times)
+    {
+        for (int i = 1; i <= times; i++)
+        {
+            StartCoroutine(SwapTwoRandomNormalCards());
+            yield return new WaitForSeconds(3f);
+        }
+    }
+    private IEnumerator SwapTwoRandomNormalCards()
+    {
+        int index1 = Random.Range(0, cells.Count);
+        int index2 = Random.Range(0, cells.Count);
+        while (index1 == index2) index2 = Random.Range(0, cells.Count);
+        cells[index1].card.Rotate(0.2f);
+        cells[index2].card.Rotate(0.2f);
+        Card tempCard = cells[index1].card;
+        cells[index1].card = cells[index2].card;
+        cells[index2].card = tempCard;
+        yield return new WaitForSeconds(0.5f);
+        cells[index1].card.FlyFromTo(cells[index1].card.transform.position, cells[index1].position, 2);
+        cells[index2].card.FlyFromTo(cells[index2].card.transform.position, cells[index2].position, 2);
     }
 
     private void OnDrawGizmos()
