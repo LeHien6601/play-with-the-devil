@@ -15,7 +15,7 @@ public class TableManager : MonoBehaviour
     [Header("Functional Cards")]
     [SerializeField] private Vector2 startPosition;
     [SerializeField] float gapFunctionalCard;
-    [SerializeField] private FuntionalCard functionalCardPref;
+    [SerializeField] private FunctionalCard functionalCardPref;
 
     [Header("Game's information")]
     [SerializeField] private int row = 1;
@@ -58,7 +58,7 @@ public class TableManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            StartCoroutine(TurnAllNormalCardsUp(0.1f));
+            //StartCoroutine(TurnAllNormalCardsUp(0.1f));
         }
         else if (Input.GetMouseButtonDown(1))
         {
@@ -70,12 +70,12 @@ public class TableManager : MonoBehaviour
         }
     }
     
-    private IEnumerator TurnAllNormalCardsUp(float delay)
+    private IEnumerator TurnAllNormalCards(float delay, bool up)
     {
         yield return new WaitForSeconds(delay);
         foreach (Cell cell in cells)
         {
-            cell.card.TurnCard(true);
+            cell.card.TurnCard(up);
             yield return new WaitForSeconds(delay);
         }
     }
@@ -88,13 +88,21 @@ public class TableManager : MonoBehaviour
             for (int j = 0; j < column; j++)
             {
                 Vector2 position = new Vector2(cardDistance.x * (j - (column - 1) / 2f), cardDistance.y * (i - (row - 1) / 2f));
-                Card card = Instantiate(cardPref, position, Quaternion.identity, transform);
+                Card card = Instantiate(cardPref, transform.position, Quaternion.identity, transform);
                 cells.Add(new Cell(true, card, position));
             }
         }
     }
     private IEnumerator DealNormalCards()
     {
+        //Turn off selectable ability for normal cards
+        foreach (Cell cell in cells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.isSelectable = false;
+            }
+        }
         //Start from center
         foreach (Cell cell in cells)
         {
@@ -123,27 +131,12 @@ public class TableManager : MonoBehaviour
         }
         yield return new WaitForSeconds(2.5f);
         //Turn up to show for player
-        foreach (Cell cell in cells)
-        {
-            if (cell.containCard)
-            {
-                cell.card.TurnCard(true);
-            }
-        }
+        StartCoroutine(TurnAllNormalCards(0.1f, true));
         //Start clock
         StartCoroutine(clock.TriggerClock(10f));
         yield return new WaitForSeconds(11f);
-        //End clock
-        //Shuffle cell's position
         //Turn down to hide from player
-        ShuffleNormalCards();
-        foreach (Cell cell in cells)
-        {
-            if (cell.containCard)
-            {
-                cell.card.TurnCard(false);
-            }
-        }
+        StartCoroutine(TurnAllNormalCards(0.1f, false));
         yield return new WaitForSeconds(1f);
         //Move to center
         foreach (Cell cell in cells)
@@ -163,14 +156,23 @@ public class TableManager : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(3f);
-        //Shuffle cell's position
-        ShuffleNormalCards();
         //Move to new cell
         foreach (Cell cell in cells)
         {
             if (cell.containCard)
             {
                 cell.card.FlyFromTo(transform.position, cell.position, 2f);
+            }
+        }
+        //Shuffle cell's position
+        ShuffleNormalCards();
+        yield return new WaitForSeconds(2f);
+        //Turn on selectable ability for normal cards
+        foreach (Cell cell in cells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.isSelectable = true;
             }
         }
     }
@@ -201,10 +203,26 @@ public class TableManager : MonoBehaviour
     
     private IEnumerator SwapMultiplePairOfNormalCards(int times)
     {
+        //Turn off selectable ability for normal cards
+        foreach (Cell cell in cells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.isSelectable = false;
+            }
+        }
         for (int i = 1; i <= times; i++)
         {
             StartCoroutine(SwapTwoRandomNormalCards());
             yield return new WaitForSeconds(3f);
+        }
+        //Turn on selectable ability for normal cards
+        foreach (Cell cell in cells)
+        {
+            if (cell.containCard)
+            {
+                cell.card.isSelectable = true;
+            }
         }
     }
     private IEnumerator SwapTwoRandomNormalCards()

@@ -180,10 +180,11 @@ MonoBehaviour:
   animator: {fileID: 1981082933586341255}
   backSprite: {fileID: 21300000, guid: 552acee6148712842ac9b805e0bf2d98, type: 3}
   frontSprite: {fileID: 21300000, guid: ccf4a4e4334ef80408697c731f7f53fd, type: 3}
-  isFaceDown: 0
+  isFaceDown: 1
   cardSize: {x: 1.6, y: 1.6}
   canvas: {fileID: 5053926143796493372}
   border: {fileID: 486514626593392345}
+  isSelectable: 0
 --- !u!1001 &5497367689386745546
 PrefabInstance:
   m_ObjectHideFlags: 0

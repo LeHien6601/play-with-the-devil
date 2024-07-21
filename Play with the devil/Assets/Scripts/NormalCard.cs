@@ -8,11 +8,12 @@ public class NormalCard : Card
     private bool isFake = false;
     private bool isNumber;
     private int numberContent;
-    public void UpdateData(string content, bool isFake)
+    public void UpdateData(string content, bool isFake, Color color)
     {
         this.content = content;
         this.isFake = isFake;
         this.isNumber = int.TryParse(content, out numberContent);
+        this.color = color;
     }
     public string GetContent()
     {
@@ -25,6 +26,7 @@ public class NormalCard : Card
 
     private void OnMouseDown()
     {
+        if (!isSelectable) return;
         this.isSelected = !isSelected;
         if (isSelected)
         {
@@ -36,5 +38,19 @@ public class NormalCard : Card
             GetComponentInParent<TableManager>().DeselectCell(this);
             border.SetActive(false);
         }
+    }
+    public NormalCard CreateRandomFakeCard()
+    {
+        int index = Random.Range(0, 2);
+        NormalCard card = new NormalCard();
+        card.UpdateData((index == 0) ? "False" : "True", true, GetRandomColor(1));
+        return card;
+    }
+    public NormalCard CreateRandomNormalCard(int limitContent, int limitColor)
+    {
+        int index = Random.Range(0, 2);
+        NormalCard card = new NormalCard();
+        card.UpdateData((index == 0) ? GetRandomLetter(limitContent) : GetRandomNumber(limitContent), false, GetRandomColor(limitColor));
+        return card;
     }
 }
