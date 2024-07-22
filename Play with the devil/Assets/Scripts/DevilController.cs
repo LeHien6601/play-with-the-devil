@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DevilController : MonoBehaviour
 {
+    static public DevilController instance;
     public string[] loseSentences;
     public string[] winSentences;
     public string[] selectCorrectSentences;
@@ -20,62 +21,44 @@ public class DevilController : MonoBehaviour
     private float timer = 0f;
 
     [SerializeField] private Animator animator;
-
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
     private void Update()
     {
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
             //Right answer
-            answer.SetActive(false);
-            devilBox.SetActive(true);
-            talkTMP.text = GetRandomSentence(selectCorrectSentences);
-            timer = delayTime;
-
-            animator.SetInteger("Win", -1);
-            animator.SetBool("Talk", true);
+            ResponeAnswerAction(true);
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
             //Wrong answer
-            answer.SetActive(false);
-            devilBox.SetActive(true);
-            talkTMP.text = GetRandomSentence(selectIncorrectSentences);
-            timer = delayTime;
-
-            animator.SetInteger("Win", -1);
-            animator.SetBool("Talk", true);
+            ResponeAnswerAction(false);
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
             //Win game
-            answer.SetActive(false);
-            devilBox.SetActive(true);
-            talkTMP.text = GetRandomSentence(winSentences);
-            timer = delayTime;
-
-            animator.SetInteger("Win", 1);
+            WinGameAction();
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
             //Lose game
-            answer.SetActive(false);
-            devilBox.SetActive(true);
-            talkTMP.text = GetRandomSentence(loseSentences);
-            timer = delayTime;
-            animator.SetInteger("Win", 0);
+            LoseGameAction();
         }
         else if (Input.GetKeyDown(KeyCode.T))
         {
             //Give answer
-            answer.SetActive(true);
-            devilBox.SetActive(true);
-            trueTMP.text = numberOfTrue.ToString();
-            falseTMP.text = numberOfFalse.ToString();
-            talkTMP.text = "";
-            timer = delayTime;
-            animator.SetInteger("Win", -1);
-            animator.SetBool("Talk", true);
+            GiveTrueFalseResultAction();
         }
         if (timer > 0)
         {
@@ -92,5 +75,45 @@ public class DevilController : MonoBehaviour
     {
         if (string.IsNullOrEmpty(strings[0])) { return null; }
         return strings[Random.Range(0, strings.Length)];
+    }
+    public void GiveTrueFalseResultAction()
+    {
+        //Give answer
+        answer.SetActive(true);
+        devilBox.SetActive(true);
+        trueTMP.text = numberOfTrue.ToString();
+        falseTMP.text = numberOfFalse.ToString();
+        talkTMP.text = "";
+        timer = delayTime;
+        animator.SetInteger("Win", -1);
+        animator.SetBool("Talk", true);
+    }
+    public void LoseGameAction()
+    {
+        //Lose game
+        answer.SetActive(false);
+        devilBox.SetActive(true);
+        talkTMP.text = GetRandomSentence(loseSentences);
+        timer = delayTime * 3;
+        animator.SetInteger("Win", 0);
+    }
+    public void WinGameAction()
+    {
+        //Win game
+        answer.SetActive(false);
+        devilBox.SetActive(true);
+        talkTMP.text = GetRandomSentence(winSentences);
+        timer = delayTime * 3;
+        animator.SetInteger("Win", 1);
+    }
+    public void ResponeAnswerAction(bool correct)
+    {
+        //Right answer
+        answer.SetActive(false);
+        devilBox.SetActive(true);
+        talkTMP.text = GetRandomSentence((correct) ? selectCorrectSentences : selectIncorrectSentences);
+        timer = delayTime;
+        animator.SetInteger("Win", -1);
+        animator.SetBool("Talk", true);
     }
 }

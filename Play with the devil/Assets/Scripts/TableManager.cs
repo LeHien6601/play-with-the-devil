@@ -53,13 +53,21 @@ public class TableManager : MonoBehaviour
         }
     };
 
-    private void Awake()
+    private void Start()
     {
         UpdateLevelData();
+        SoulController.instance.GenerateSouls(numberOfSouls);
         SetUpNormalCards();
         SetUpFunctionalCards();
         numFakeCardsTMP.text = "Number of fake cards: " + numberOfFakeCards.ToString();
     }
+    
+
+    private void Update()
+    {
+        
+    }
+    //      Update initial level's data
     private void UpdateLevelData()
     {
         row = levelData.row;
@@ -73,16 +81,7 @@ public class TableManager : MonoBehaviour
         numberOfSouls = levelData.numberOfSouls;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            StartCoroutine(SwapMultiplePairOfNormalCards(numberOfSwapedPairs));
-        }
-    }
-
-
-    //Turn up/down cards
+    //      Turn up/down cards
     private IEnumerator TurnAllNormalCards(float delay, bool up)
     {
         yield return new WaitForSeconds(delay);
@@ -413,10 +412,12 @@ public class TableManager : MonoBehaviour
         if (selectedCells.Count == numberOfFakeCards && selectedFunctionalCell == null)
         {
             ansBtn.interactable = true;
+            ansBtn.GetComponent<UIDescriptionHandler>().SetActive(false);
         }
         else
         {
             ansBtn.interactable = false;
+            ansBtn.GetComponent<UIDescriptionHandler>().SetActive(true);
         }
     }
 
@@ -425,10 +426,12 @@ public class TableManager : MonoBehaviour
         if (selectedCells.Count == 1 && selectedFunctionalCell != null)
         {
             useBtn.interactable = true;
+            useBtn.GetComponent<UIDescriptionHandler>().SetActive(false);
         }
         else
         {
             useBtn.interactable = false;
+            useBtn.GetComponent<UIDescriptionHandler>().SetActive(true);
         }
     }
     private void OnDrawGizmos()

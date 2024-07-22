@@ -22,7 +22,7 @@ public class FunctionalCard : Card
         }
         this.type = type;
         this.value = value;
-        this.isNumber = int.TryParse(value, out numberValue);
+        this.isNumber = int.TryParse(value, out numberValue) || (value.CompareTo("Number") == 0);
         this.color = color;
         this.contentTMP.color = color;
         this.contentTMP.text = content;
@@ -35,6 +35,9 @@ public class FunctionalCard : Card
 
     public bool ActiveFunction(NormalCard card)
     {
+        //For fake cards
+        if (card.IsFake() && type != FunctionType.IsFake) { return card.GetContent().CompareTo("True") == 0 ? true : false; }
+        //For number and letter cards
         if (card.IsNumber() != isNumber) return false;
         switch (type)
         {
@@ -53,11 +56,15 @@ public class FunctionalCard : Card
             case FunctionType.Is:
                 if (isNumber)
                 {
-                    return (card.GetNumber() == numberValue);
+                    return (card.GetNumber() == numberValue) || (value.CompareTo("Number") == 0);
                 }
                 else if (value.Length == 1)
                 {
                     return (value.CompareTo(card.GetContent()) == 0);
+                }
+                else if (value.CompareTo("Letter") == 0)
+                {
+                    return true;
                 }
                 return card.GetColor() == color;
             case FunctionType.IsFake:
@@ -124,11 +131,21 @@ public class FunctionalCard : Card
     }
     public void CreateFunctionalLetterCard(int limitContent)
     {
-        UpdateData(GetRandomFunctionType(), GetRandomLetter(limitContent), Color.magenta);
+        float index = Random.Range(0f, 5f);
+        if (index < 4f)
+        {
+            UpdateData(FunctionType.Is, "Letter", new Color(0.6f, 0f, 0.2f));
+        }
+        else UpdateData(GetRandomFunctionType(), GetRandomLetter(limitContent), new Color(0.6f, 0f, 0.2f));
     }
     public void CreateFunctionalNumberCard(int limitContent)
     {
-        UpdateData(GetRandomFunctionType(), GetRandomNumber(limitContent), Color.magenta);
+        float index = Random.Range(0f, 5f);
+        if (index < 4f)
+        {
+            UpdateData(FunctionType.Is, "Number", new Color(0.4f, 0.2f, 0f));
+        }
+        else UpdateData(GetRandomFunctionType(), GetRandomNumber(limitContent), new Color(0.4f, 0.2f, 0f));
     }
     public void CreateFunctionalColorCard(int limitColor)
     {

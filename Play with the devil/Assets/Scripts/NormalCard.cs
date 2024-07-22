@@ -48,11 +48,16 @@ public class NormalCard : Card
     public void CreateRandomFakeCard()
     {
         int index = Random.Range(0, 2);
-        UpdateData((index == 0) ? "False" : "True", true, GetRandomColor(1));
+        UpdateData((index == 0) ? "False" : "True", true, Color.gray);
     }
     public void CreateRandomNormalCard(int limitContent, int limitColor)
     {
         int index = Random.Range(0, 2);
         UpdateData((index == 0) ? GetRandomLetter(limitContent) : GetRandomNumber(limitContent), false, GetRandomColor(limitColor));
+    }
+    public void InverseFakeCard()
+    {
+        if (!isFake) return;
+        content = (content.CompareTo("True") == 0) ? "False" : "True";
     }
 }
