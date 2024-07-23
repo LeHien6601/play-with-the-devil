@@ -29,6 +29,7 @@ public class TableManager : MonoBehaviour
     private float showCardTime;
     private int numberOfSwapedPairs;
     private int numberOfSouls;
+    private bool switchTF;
 
     [Header("UI")]
     [SerializeField] private Button ansBtn;
@@ -108,6 +109,7 @@ public class TableManager : MonoBehaviour
         showCardTime = levelData.showCardTime;
         numberOfSwapedPairs = levelData.numberOfSwapedPairs;
         numberOfSouls = levelData.numberOfSouls;
+        switchTF = levelData.switchTF;
     }
 
     //      Turn up/down cards
@@ -544,6 +546,16 @@ public class TableManager : MonoBehaviour
         if (SoulController.instance.NumberOfSouls() == 0) return;
         StartCoroutine(GameManager.instance.SetAskTFState());
         StartCoroutine(ResetAllFunctionalCards()); 
+        if (switchTF)
+        {
+            foreach (NormalCell cell in cells)
+            {
+                if (cell.containCard)
+                {
+                    if (cell.card.IsFake()) cell.card.InverseFakeCard();
+                }
+            }
+        }
         SoulController.instance.LoseOneSoul();
         CheckTFButtonCondition();
     }

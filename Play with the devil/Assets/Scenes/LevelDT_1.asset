@@ -21,3 +21,4 @@ MonoBehaviour:
   showCardTime: 10
   numberOfSwapedPairs: 0
   numberOfSouls: 5
+  switchTF: 1

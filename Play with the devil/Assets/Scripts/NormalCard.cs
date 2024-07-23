@@ -57,5 +57,6 @@ public class NormalCard : Card
     {
         if (!IsFake()) return;
         content = (content.CompareTo("True") == 0) ? "False" : "True";
+        contentTMP.text = content;
     }
 }

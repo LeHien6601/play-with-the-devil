@@ -14,4 +14,5 @@ public class LevelData : ScriptableObject
     public float showCardTime;
     public int numberOfSwapedPairs;
     public int numberOfSouls;
+    public bool switchTF;
 }
