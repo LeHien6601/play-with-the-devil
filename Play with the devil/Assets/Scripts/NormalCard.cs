@@ -5,13 +5,12 @@ using UnityEngine;
 public class NormalCard : Card
 {
     private string content;
-    private bool isFake = false;
     private bool isNumber;
     private int numberContent;
     public void UpdateData(string content, bool isFake, Color color)
     {
         this.content = content;
-        this.isFake = isFake;
+        SetFake(isFake);
         this.isNumber = int.TryParse(content, out numberContent);
         this.color = color;
         this.contentTMP.text = content;
@@ -25,7 +24,6 @@ public class NormalCard : Card
     {
         return content;
     }
-    public bool IsFake() { return isFake; }
     public int GetNumber() { return numberContent; }
     public bool IsNumber() { return isNumber; }
 
@@ -57,7 +55,7 @@ public class NormalCard : Card
     }
     public void InverseFakeCard()
     {
-        if (!isFake) return;
+        if (!IsFake()) return;
         content = (content.CompareTo("True") == 0) ? "False" : "True";
     }
 }

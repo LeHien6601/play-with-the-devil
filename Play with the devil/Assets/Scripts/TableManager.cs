@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,6 +33,7 @@ public class TableManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Button ansBtn;
     [SerializeField] private Button useBtn;
+    [SerializeField] private Button tfBTN;
     [SerializeField] private TextMeshProUGUI numFakeCardsTMP;
     [SerializeField] private Clock clock;
     
@@ -40,6 +42,8 @@ public class TableManager : MonoBehaviour
     private List<Cell> selectedCells = new List<Cell>();
     private List<Cell> functionalCells = new List<Cell>();
     private Cell selectedFunctionalCell = null;
+
+    static public TableManager instance;
 
     public class Cell {
         public bool containCard;
@@ -53,12 +57,25 @@ public class TableManager : MonoBehaviour
         }
     };
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     private void Start()
     {
         UpdateLevelData();
         SoulController.instance.GenerateSouls(numberOfSouls);
         SetUpNormalCards();
         SetUpFunctionalCards();
+        StartCoroutine(DealFunctionalCards(15f + showCardTime));
         numFakeCardsTMP.text = "Number of fake cards: " + numberOfFakeCards.ToString();
     }
     
@@ -189,6 +206,8 @@ public class TableManager : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(3f);
+        //Shuffle cell's position
+        ShuffleNormalCards();
         //Move to new cell
         foreach (Cell cell in cells)
         {
@@ -197,8 +216,6 @@ public class TableManager : MonoBehaviour
                 cell.card.FlyFromTo(transform.position, cell.position, 2f);
             }
         }
-        //Shuffle cell's position
-        ShuffleNormalCards();
         yield return new WaitForSeconds(2f);
         //Turn on selectable ability for normal cards
         foreach (Cell cell in cells)
@@ -277,9 +294,8 @@ public class TableManager : MonoBehaviour
             card.CreateRandomFunctionalCard(limitContent, limitColor);
             functionalCells.Add(new Cell(true, card, position));
         }
-        StartCoroutine(DealFunctionalCards());
     }
-    private IEnumerator DealFunctionalCards()
+    private IEnumerator DealFunctionalCards(float delay)
     {
         //Turn off selectable ability for functional cards
         foreach (Cell cell in functionalCells)
@@ -289,8 +305,10 @@ public class TableManager : MonoBehaviour
                 cell.card.isSelectable = false;
             }
         }
+        //Turn off interactable ability for tfBtn
+        tfBTN.interactable = false;
         //Wait for normal cards
-        yield return new WaitForSeconds(15f + showCardTime);
+        yield return new WaitForSeconds(delay);
         //Start functional cards's animation
         foreach (Cell cell in functionalCells)
         {
@@ -319,8 +337,22 @@ public class TableManager : MonoBehaviour
                 cell.card.isSelectable = true;
             }
         }
+        //Turn on interactable ability for tfBtn
+        tfBTN.interactable = true;
     }
 
+    private IEnumerator ResetAllFunctionalCards()
+    {
+        //Fade card
+        foreach(Cell cell in functionalCells)
+        {
+            if (cell.containCard) cell.card.CardFace();
+        }
+        yield return new WaitForSeconds(3f);
+        functionalCells.Clear();
+        SetUpFunctionalCards();
+        StartCoroutine(DealFunctionalCards(1f));
+    }
     //      Select and deselect card
 
     public void SelectCell(Card card)
@@ -421,6 +453,33 @@ public class TableManager : MonoBehaviour
         }
     }
 
+    public void AnswerFakeCards()
+    {
+        bool correct = true;
+        foreach (Cell cell in selectedCells)
+        {
+            correct &= (cell.containCard && cell.card.IsFake());
+        }
+        if (correct)
+        {
+            StartCoroutine(TurnAllNormalCards(0.2f, true));
+            StartCoroutine(GameManager.instance.SetWinState());
+        }
+        else
+        {
+            if (SoulController.instance.NumberOfSouls() == 0)
+            {
+                StartCoroutine(TurnAllNormalCards(0.2f, true));
+                StartCoroutine(GameManager.instance.SetLoseState());
+            }
+            else
+            {
+                SoulController.instance.LoseOneSoul();
+                CheckTFButtonCondition();
+            }
+        }
+    }
+
     private void CheckUseCardButtonCondition()
     {
         if (selectedCells.Count == 1 && selectedFunctionalCell != null)
@@ -433,6 +492,27 @@ public class TableManager : MonoBehaviour
             useBtn.interactable = false;
             useBtn.GetComponent<UIDescriptionHandler>().SetActive(true);
         }
+    }
+
+    private void CheckTFButtonCondition()
+    {
+        if (SoulController.instance.NumberOfSouls() == 0)
+        {
+            tfBTN.interactable = false;
+        }
+        else
+        {
+            tfBTN.interactable = true;
+        }
+    }
+
+    public void AskTFRatioAndResetFunctionalCards()
+    {
+        if (SoulController.instance.NumberOfSouls() == 0) return;
+        StartCoroutine(GameManager.instance.SetAskTFState());
+        StartCoroutine(ResetAllFunctionalCards()); 
+        SoulController.instance.LoseOneSoul();
+        CheckTFButtonCondition();
     }
     private void OnDrawGizmos()
     {

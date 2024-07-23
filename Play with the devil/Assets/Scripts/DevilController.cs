@@ -10,6 +10,7 @@ public class DevilController : MonoBehaviour
     public string[] winSentences;
     public string[] selectCorrectSentences;
     public string[] selectIncorrectSentences;
+    public string[] responseSentences;
     public int numberOfTrue = 0;
     public int numberOfFalse = 0;
     [SerializeField] private TextMeshProUGUI talkTMP;
@@ -112,6 +113,15 @@ public class DevilController : MonoBehaviour
         answer.SetActive(false);
         devilBox.SetActive(true);
         talkTMP.text = GetRandomSentence((correct) ? selectCorrectSentences : selectIncorrectSentences);
+        timer = delayTime;
+        animator.SetInteger("Win", -1);
+        animator.SetBool("Talk", true);
+    }
+    public void NormalResponseAction()
+    {
+        answer.SetActive(false);
+        devilBox.SetActive(true);
+        talkTMP.text = GetRandomSentence(responseSentences);
         timer = delayTime;
         animator.SetInteger("Win", -1);
         animator.SetBool("Talk", true);

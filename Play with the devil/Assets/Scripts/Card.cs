@@ -24,6 +24,7 @@ public class Card : MonoBehaviour
     private bool isFlying = false;
     private float rotateTimer = 0f, rotateInterval = 0f;
     private bool isRotating = false;
+    private bool isFake = false;
     
     private void Awake()
     {
@@ -64,6 +65,9 @@ public class Card : MonoBehaviour
             }
         }
     }
+
+    public bool IsFake() { return isFake; }
+    public void SetFake(bool isFake) { this.isFake = isFake; } 
     public void FlyFromTo(Vector2 start, Vector2 end, float time)
     {
         isFlying = true;
@@ -85,6 +89,11 @@ public class Card : MonoBehaviour
         isFaceDown = !up;
         animator.SetTrigger("Turn");
         spriteRenderer.sprite = up ? frontSprite : backSprite;
+    }
+    public void CardFace()
+    {
+        isFaceDown = false;
+        animator.SetTrigger("Fade");
     }
     public void Deselect()
     {

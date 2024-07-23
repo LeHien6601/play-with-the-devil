@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public string[] loseSentences;
     public string[] winSentences;
     public string[] selectFakeCardsSentences;
+    public string[] responseSentences;
     [SerializeField] private TextMeshProUGUI talkTMP;
     [SerializeField] private GameObject slimeBox;
     [SerializeField] private float delayTime = 5f;
@@ -83,6 +84,14 @@ public class PlayerController : MonoBehaviour
         animator.SetInteger("Win", -1);
         slimeBox.SetActive(true);
         talkTMP.text = GetRandomSentence(selectFakeCardsSentences);
+        timer = delayTime;
+    }
+    public void NormalResponseAction()
+    {
+        animator.SetBool("Talk", true);
+        animator.SetInteger("Win", -1);
+        slimeBox.SetActive(true);
+        talkTMP.text = GetRandomSentence(responseSentences);
         timer = delayTime;
     }
 }
