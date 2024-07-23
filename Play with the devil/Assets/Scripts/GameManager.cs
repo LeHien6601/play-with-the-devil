@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         PlayerController.instance.WinGameAction();
         DevilController.instance.WinGameAction();
+        //Next level or main menu
     }
 
     public IEnumerator SetLoseState()
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         PlayerController.instance.LoseGameAction();
         DevilController.instance.LoseGameAction();
+        //Restart or main menu
     }
 
     public IEnumerator SetAskTFState()
@@ -48,8 +50,10 @@ public class GameManager : MonoBehaviour
         PlayerController.instance.NormalResponseAction();
     }
 
-    public IEnumerator SetUseCardState()
+    public IEnumerator SetUseCardState(bool isTrue)
     {
-        yield break;
+        yield return new WaitForSeconds(1f);
+        DevilController.instance.IncreaseNumberOfTF(isTrue);
+        DevilController.instance.NormalResponseAction();
     }
 }

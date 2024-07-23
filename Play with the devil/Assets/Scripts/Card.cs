@@ -90,7 +90,7 @@ public class Card : MonoBehaviour
         animator.SetTrigger("Turn");
         spriteRenderer.sprite = up ? frontSprite : backSprite;
     }
-    public void CardFace()
+    public void CardFade()
     {
         isFaceDown = false;
         animator.SetTrigger("Fade");

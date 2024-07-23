@@ -38,18 +38,30 @@ public class TableManager : MonoBehaviour
     [SerializeField] private Clock clock;
     
 
-    private List<Cell> cells = new List<Cell>();
-    private List<Cell> selectedCells = new List<Cell>();
-    private List<Cell> functionalCells = new List<Cell>();
-    private Cell selectedFunctionalCell = null;
+    private List<NormalCell> cells = new List<NormalCell>();
+    private List<NormalCell> selectedCells = new List<NormalCell>();
+    private List<FunctionalCell> functionalCells = new List<FunctionalCell>();
+    private FunctionalCell selectedFunctionalCell = null;
 
     static public TableManager instance;
 
-    public class Cell {
+    public class NormalCell {
         public bool containCard;
-        public Card card;
+        public NormalCard card;
         public Vector2 position;
-        public Cell(bool containCard, Card card, Vector2 position)
+        public NormalCell(bool containCard, NormalCard card, Vector2 position)
+        {
+            this.containCard = containCard;
+            this.card = card;
+            this.position = position;
+        }
+    };
+    public class FunctionalCell
+    {
+        public bool containCard;
+        public FunctionalCard card;
+        public Vector2 position;
+        public FunctionalCell(bool containCard, FunctionalCard card, Vector2 position)
         {
             this.containCard = containCard;
             this.card = card;
@@ -102,7 +114,7 @@ public class TableManager : MonoBehaviour
     private IEnumerator TurnAllNormalCards(float delay, bool up)
     {
         yield return new WaitForSeconds(delay);
-        foreach (Cell cell in cells)
+        foreach (NormalCell cell in cells)
         {
             cell.card.TurnCard(up);
             yield return new WaitForSeconds(delay);
@@ -111,7 +123,7 @@ public class TableManager : MonoBehaviour
     private IEnumerator TurnAllFunctionalCards(float delay, bool up)
     {
         yield return new WaitForSeconds(delay);
-        foreach (Cell cell in functionalCells)
+        foreach (FunctionalCell cell in functionalCells)
         {
             cell.card.TurnCard(up);
             yield return new WaitForSeconds(delay);
@@ -138,7 +150,7 @@ public class TableManager : MonoBehaviour
                 {
                     card.CreateRandomNormalCard(limitContent, limitColor);
                 }
-                cells.Add(new Cell(true, card, position));
+                cells.Add(new NormalCell(true, card, position));
             }
         }
         StartCoroutine(DealNormalCards());
@@ -146,7 +158,7 @@ public class TableManager : MonoBehaviour
     private IEnumerator DealNormalCards()
     {
         //Turn off selectable ability for normal cards
-        foreach (Cell cell in cells)
+        foreach (NormalCell cell in cells)
         {
             if (cell.containCard)
             {
@@ -154,7 +166,7 @@ public class TableManager : MonoBehaviour
             }
         }
         //Start from center
-        foreach (Cell cell in cells)
+        foreach (NormalCell cell in cells)
         {
             if (cell.containCard)
             {
@@ -172,7 +184,7 @@ public class TableManager : MonoBehaviour
         }
         yield return new WaitForSeconds(3f);
         //Move to cell
-        foreach (Cell cell in cells)
+        foreach (NormalCell cell in cells)
         {
             if (cell.containCard)
             {
@@ -189,7 +201,7 @@ public class TableManager : MonoBehaviour
         StartCoroutine(TurnAllNormalCards(0.1f, false));
         yield return new WaitForSeconds(1f);
         //Move to center
-        foreach (Cell cell in cells)
+        foreach (NormalCell cell in cells)
         {
             if (cell.containCard)
             {
@@ -209,7 +221,7 @@ public class TableManager : MonoBehaviour
         //Shuffle cell's position
         ShuffleNormalCards();
         //Move to new cell
-        foreach (Cell cell in cells)
+        foreach (NormalCell cell in cells)
         {
             if (cell.containCard)
             {
@@ -218,7 +230,7 @@ public class TableManager : MonoBehaviour
         }
         yield return new WaitForSeconds(2f);
         //Turn on selectable ability for normal cards
-        foreach (Cell cell in cells)
+        foreach (NormalCell cell in cells)
         {
             if (cell.containCard)
             {
@@ -228,12 +240,12 @@ public class TableManager : MonoBehaviour
     }
     private void ShuffleNormalCards()
     {
-        List<Card> cards = new List<Card>();
-        foreach (Cell cell in cells)
+        List<NormalCard> cards = new List<NormalCard>();
+        foreach (NormalCell cell in cells)
         {
             if (cell.containCard) cards.Add(cell.card);
         }
-        foreach (Cell cell in cells)
+        foreach (NormalCell cell in cells)
         {
             int randomIndex = Random.Range(0, cards.Count);
             cell.card = cards[randomIndex];
@@ -244,7 +256,7 @@ public class TableManager : MonoBehaviour
     private IEnumerator SwapMultiplePairOfNormalCards(int times)
     {
         //Turn off selectable ability for normal cards
-        foreach (Cell cell in cells)
+        foreach (NormalCell cell in cells)
         {
             if (cell.containCard)
             {
@@ -257,7 +269,7 @@ public class TableManager : MonoBehaviour
             yield return new WaitForSeconds(3f);
         }
         //Turn on selectable ability for normal cards
-        foreach (Cell cell in cells)
+        foreach (NormalCell cell in cells)
         {
             if (cell.containCard)
             {
@@ -272,7 +284,7 @@ public class TableManager : MonoBehaviour
         while (index1 == index2) index2 = Random.Range(0, cells.Count);
         cells[index1].card.Rotate(0.2f);
         cells[index2].card.Rotate(0.2f);
-        Card tempCard = cells[index1].card;
+        NormalCard tempCard = cells[index1].card;
         cells[index1].card = cells[index2].card;
         cells[index2].card = tempCard;
         yield return new WaitForSeconds(0.5f);
@@ -292,13 +304,13 @@ public class TableManager : MonoBehaviour
             Vector2 position = new Vector2(startPosition.x + i * cardDistance, startPosition.y);
             FunctionalCard card = Instantiate(functionalCardPref, startPosition, Quaternion.identity, transform);
             card.CreateRandomFunctionalCard(limitContent, limitColor);
-            functionalCells.Add(new Cell(true, card, position));
+            functionalCells.Add(new FunctionalCell(true, card, position));
         }
     }
     private IEnumerator DealFunctionalCards(float delay)
     {
         //Turn off selectable ability for functional cards
-        foreach (Cell cell in functionalCells)
+        foreach (FunctionalCell cell in functionalCells)
         {
             if (cell.containCard)
             {
@@ -310,7 +322,7 @@ public class TableManager : MonoBehaviour
         //Wait for normal cards
         yield return new WaitForSeconds(delay);
         //Start functional cards's animation
-        foreach (Cell cell in functionalCells)
+        foreach (FunctionalCell cell in functionalCells)
         {
             if (cell.containCard)
             {
@@ -319,7 +331,7 @@ public class TableManager : MonoBehaviour
         }
         yield return new WaitForSeconds(3f);
         //Move to cell's position
-        foreach (Cell cell in functionalCells)
+        foreach (FunctionalCell cell in functionalCells)
         {
             if (cell.containCard)
             {
@@ -330,7 +342,7 @@ public class TableManager : MonoBehaviour
         StartCoroutine(TurnAllFunctionalCards(0.1f, true));
         yield return new WaitForSeconds(2f);
         //Turn on selectable ability for functional cards
-        foreach (Cell cell in functionalCells)
+        foreach (FunctionalCell cell in functionalCells)
         {
             if (cell.containCard)
             {
@@ -344,20 +356,30 @@ public class TableManager : MonoBehaviour
     private IEnumerator ResetAllFunctionalCards()
     {
         //Fade card
-        foreach(Cell cell in functionalCells)
+        foreach(FunctionalCell cell in functionalCells)
         {
-            if (cell.containCard) cell.card.CardFace();
+            if (cell.containCard) cell.card.CardFade();
         }
         yield return new WaitForSeconds(3f);
         functionalCells.Clear();
         SetUpFunctionalCards();
-        StartCoroutine(DealFunctionalCards(1f));
+        StartCoroutine(DealFunctionalCards(4f));
+    }
+    private IEnumerator ClearSelectedFunctionalCard()
+    {
+        selectedFunctionalCell.card.CardFade();
+        FunctionalCell clearCell = selectedFunctionalCell;
+        DeselectFunctionalCell(selectedFunctionalCell.card);
+        yield return new WaitForSeconds(2f);
+        functionalCells.Remove(clearCell);
+        Destroy(clearCell.card.gameObject);
+        
     }
     //      Select and deselect card
 
     public void SelectCell(Card card)
     {
-        Cell selectedCell = null;
+        NormalCell selectedCell = null;
         for (int i = 0; i < cells.Count; i++)
         {
             if (card == cells[i].card)
@@ -379,7 +401,7 @@ public class TableManager : MonoBehaviour
 
     public void DeselectCell(Card card)
     {
-        Cell deselectedCell = null;
+        NormalCell deselectedCell = null;
         for (int i = 0; i < cells.Count; i++)
         {
             if (card == cells[i].card)
@@ -398,7 +420,7 @@ public class TableManager : MonoBehaviour
 
     public void SelectFunctionalCell(Card card)
     {
-        Cell selectedCell = null;
+        FunctionalCell selectedCell = null;
         for (int i = 0; i < functionalCells.Count; i++)
         {
             if (card == functionalCells[i].card)
@@ -420,7 +442,7 @@ public class TableManager : MonoBehaviour
 
     public void DeselectFunctionalCell(Card card)
     {
-        Cell deselectedCell = null;
+        FunctionalCell deselectedCell = null;
         for (int i = 0; i < functionalCells.Count; i++)
         {
             if (card == functionalCells[i].card)
@@ -439,6 +461,7 @@ public class TableManager : MonoBehaviour
 
     //      UI's conditions
 
+    //      Answer Button
     private void CheckAnswerButtonCondition()
     {
         if (selectedCells.Count == numberOfFakeCards && selectedFunctionalCell == null)
@@ -456,7 +479,7 @@ public class TableManager : MonoBehaviour
     public void AnswerFakeCards()
     {
         bool correct = true;
-        foreach (Cell cell in selectedCells)
+        foreach (NormalCell cell in selectedCells)
         {
             correct &= (cell.containCard && cell.card.IsFake());
         }
@@ -480,6 +503,8 @@ public class TableManager : MonoBehaviour
         }
     }
 
+
+    //      Use card Button
     private void CheckUseCardButtonCondition()
     {
         if (selectedCells.Count == 1 && selectedFunctionalCell != null)
@@ -493,7 +518,15 @@ public class TableManager : MonoBehaviour
             useBtn.GetComponent<UIDescriptionHandler>().SetActive(true);
         }
     }
+    public void UseFunctionalCard()
+    {
+        if (selectedFunctionalCell == null || selectedCells.Count != 1) return;
+        bool result = selectedFunctionalCell.card.ActiveFunction(selectedCells[0].card);
+        StartCoroutine(GameManager.instance.SetUseCardState(result));
+        StartCoroutine(ClearSelectedFunctionalCard());
+    }
 
+    //      TF Button
     private void CheckTFButtonCondition()
     {
         if (SoulController.instance.NumberOfSouls() == 0)
@@ -518,13 +551,13 @@ public class TableManager : MonoBehaviour
     {
         if (cells == null) return;
         Gizmos.color = Color.green;
-        foreach (Cell cell in cells)
+        foreach (NormalCell cell in cells)
         {
             Gizmos.DrawWireCube(cell.position, cardSize);
         }
         if (functionalCells == null) return;
         Gizmos.color = Color.blue;
-        foreach (Cell cell in functionalCells)
+        foreach (FunctionalCell cell in functionalCells)
         {
             Gizmos.DrawWireCube(cell.position, cardSize);
         }

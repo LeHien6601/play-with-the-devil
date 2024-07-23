@@ -72,6 +72,17 @@ public class DevilController : MonoBehaviour
             }
         }
     }
+    public void IncreaseNumberOfTF(bool isTrue)
+    {
+        if (isTrue)
+        {
+            numberOfTrue++;
+        }
+        else
+        {
+            numberOfFalse++;
+        }
+    }
     private string GetRandomSentence(string[] strings)
     {
         if (string.IsNullOrEmpty(strings[0])) { return null; }
