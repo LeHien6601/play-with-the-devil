@@ -18,7 +18,10 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
+    public void LoadLevel(int level)
+    {
+        SceneManager.LoadScene(level);
+    }
     public void QuitGame()
     {
         Application.Quit();
@@ -55,5 +58,21 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         DevilController.instance.IncreaseNumberOfTF(isTrue);
         DevilController.instance.NormalResponseAction();
+    }
+
+    public IEnumerator SetWrongAnswerState()
+    {
+        yield return new WaitForSeconds(1f);
+        DevilController.instance.ResponeAnswerAction(false);
+        yield return new WaitForSeconds(1f);
+        PlayerController.instance.AnswerWrongAction();
+    }
+
+    public IEnumerator SetRemindSwapCardsState(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        DevilController.instance.RemindSwapCardsAction();
+        yield return new WaitForSeconds(1f);
+        PlayerController.instance.NormalResponseAction();
     }
 }

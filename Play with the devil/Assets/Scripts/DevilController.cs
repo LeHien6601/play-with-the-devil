@@ -11,6 +11,7 @@ public class DevilController : MonoBehaviour
     public string[] selectCorrectSentences;
     public string[] selectIncorrectSentences;
     public string[] responseSentences;
+    public string[] remindSentences;
     public int numberOfTrue = 0;
     public int numberOfFalse = 0;
     [SerializeField] private TextMeshProUGUI talkTMP;
@@ -18,7 +19,7 @@ public class DevilController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI falseTMP;
     [SerializeField] private GameObject answer;
     [SerializeField] private GameObject devilBox;
-    [SerializeField] private float delayTime = 5f;
+    [SerializeField] private float delayTime = 3.5f;
     private float timer = 0f;
 
     [SerializeField] private Animator animator;
@@ -106,7 +107,7 @@ public class DevilController : MonoBehaviour
         answer.SetActive(false);
         devilBox.SetActive(true);
         talkTMP.text = GetRandomSentence(loseSentences);
-        timer = delayTime * 3;
+        timer = delayTime * 5;
         animator.SetInteger("Win", 0);
     }
     public void WinGameAction()
@@ -115,7 +116,7 @@ public class DevilController : MonoBehaviour
         answer.SetActive(false);
         devilBox.SetActive(true);
         talkTMP.text = GetRandomSentence(winSentences);
-        timer = delayTime * 3;
+        timer = delayTime * 5;
         animator.SetInteger("Win", 1);
     }
     public void ResponeAnswerAction(bool correct)
@@ -133,6 +134,15 @@ public class DevilController : MonoBehaviour
         answer.SetActive(false);
         devilBox.SetActive(true);
         talkTMP.text = GetRandomSentence(responseSentences);
+        timer = delayTime;
+        animator.SetInteger("Win", -1);
+        animator.SetBool("Talk", true);
+    }
+    public void RemindSwapCardsAction()
+    {
+        answer.SetActive(false);
+        devilBox.SetActive(true);
+        talkTMP.text = GetRandomSentence(remindSentences);
         timer = delayTime;
         animator.SetInteger("Win", -1);
         animator.SetBool("Talk", true);

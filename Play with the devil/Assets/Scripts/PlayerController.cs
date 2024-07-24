@@ -10,9 +10,10 @@ public class PlayerController : MonoBehaviour
     public string[] winSentences;
     public string[] selectFakeCardsSentences;
     public string[] responseSentences;
+    public string[] wrongAnswerSentences;
     [SerializeField] private TextMeshProUGUI talkTMP;
     [SerializeField] private GameObject slimeBox;
-    [SerializeField] private float delayTime = 5f;
+    [SerializeField] private float delayTime = 3.5f;
 
     private float timer = 0f;
 
@@ -67,7 +68,7 @@ public class PlayerController : MonoBehaviour
         animator.SetInteger("Win", 1);
         slimeBox.SetActive(true);
         talkTMP.text = GetRandomSentence(winSentences);
-        timer = delayTime * 3;
+        timer = delayTime * 5;
     }
     public void LoseGameAction()
     {
@@ -75,7 +76,7 @@ public class PlayerController : MonoBehaviour
         animator.SetInteger("Win", 0);
         slimeBox.SetActive(true);
         talkTMP.text = GetRandomSentence(loseSentences);
-        timer = delayTime * 3;
+        timer = delayTime * 5;
     }
     public void AnswerFakeCardsResultAction()
     {
@@ -84,6 +85,14 @@ public class PlayerController : MonoBehaviour
         animator.SetInteger("Win", -1);
         slimeBox.SetActive(true);
         talkTMP.text = GetRandomSentence(selectFakeCardsSentences);
+        timer = delayTime;
+    }
+    public void AnswerWrongAction()
+    {
+        animator.SetBool("Talk", true);
+        animator.SetInteger("Win", -1);
+        slimeBox.SetActive(true);
+        talkTMP.text = GetRandomSentence(wrongAnswerSentences);
         timer = delayTime;
     }
     public void NormalResponseAction()

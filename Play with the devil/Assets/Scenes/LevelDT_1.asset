@@ -18,7 +18,7 @@ MonoBehaviour:
   numberOfFunctionalCards: 6
   limitContent: 5
   limitColor: 1
-  showCardTime: 10
-  numberOfSwapedPairs: 0
+  showCardTime: 1
+  numberOfSwapedPairs: 10
   numberOfSouls: 5
   switchTF: 1
