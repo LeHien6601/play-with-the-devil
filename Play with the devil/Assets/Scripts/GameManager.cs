@@ -35,9 +35,14 @@ public class GameManager : MonoBehaviour
     }
     public void LoadLevel(int level)
     {
+        StartCoroutine(LoadLevelWithDelay(level));
+    }
+    public IEnumerator LoadLevelWithDelay(int level)
+    {
         currentLevel = level;
-        Debug.Log("Load level " +  level);  
-        //SceneManager.LoadScene(level);
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(level);
+        DontDestroyOnLoad(gameObject);
         if (currentLevel == 0)
         {
             LevelManager.instance.UpdateLevelUnlockedState();
