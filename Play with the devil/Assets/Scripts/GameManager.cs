@@ -43,10 +43,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(level);
         DontDestroyOnLoad(gameObject);
-        if (currentLevel == 0)
-        {
-            LevelManager.instance.UpdateLevelUnlockedState();
-        }
     }
     public void QuitGame()
     {
@@ -55,6 +51,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator SetWinState()
     {
+        UnlockNewLevel();
         currentGameState = GameState.WIN;
         yield return new WaitForSeconds(3f);
         PlayerController.instance.WinGameAction();
