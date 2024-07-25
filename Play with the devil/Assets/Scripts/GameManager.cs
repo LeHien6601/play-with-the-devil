@@ -4,9 +4,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public GameState currentGameState = GameState.RUN;
+    [SerializeField] private GameState currentGameState = GameState.RUN;
     public enum GameState { RUN, WIN, LOSE };
-
+    [SerializeField] private int currentLevel = 0;
+    [SerializeField] private int currentUnlockedLevel = 1;
+    [SerializeField] private int maxLevel = 24;
     public void Awake()
     {
         if (instance == null)
@@ -18,9 +20,28 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    public int CurrentLevel() { return currentLevel; }
+    public int CurrentUnlockedLevel() {  return currentUnlockedLevel; }
+    public void UnlockNewLevel()
+    {
+        if (currentUnlockedLevel == maxLevel)
+        {
+            //Finish game
+        }
+        else
+        {
+            currentUnlockedLevel++;
+        }
+    }
     public void LoadLevel(int level)
     {
-        SceneManager.LoadScene(level);
+        currentLevel = level;
+        Debug.Log("Load level " +  level);  
+        //SceneManager.LoadScene(level);
+        if (currentLevel == 0)
+        {
+            LevelManager.instance.UpdateLevelUnlockedState();
+        }
     }
     public void QuitGame()
     {
