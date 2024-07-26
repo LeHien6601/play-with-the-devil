@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: LevelDT_1
   m_EditorClassIdentifier: 
   row: 2
-  column: 4
+  column: 5
   numberOfFakeCards: 2
-  numberOfFunctionalCards: 6
+  numberOfFunctionalCards: 7
   limitContent: 5
-  limitColor: 1
-  showCardTime: 1
+  limitColor: 5
+  showCardTime: 50
   numberOfSwapedPairs: 0
-  numberOfSouls: 5
+  numberOfSouls: 20
   switchTF: 0

@@ -38,32 +38,40 @@ public class FunctionalCard : Card
         //For fake cards
         if (card.IsFake() && type != FunctionType.IsFake) { return card.GetContent().CompareTo("True") == 0 ? true : false; }
         //For number and letter cards
-        if (card.IsNumber() != isNumber) return false;
+        //      (N + is/before/after L) || (L + is/before/after N) -> false 
+        if (card.IsNumber() != isNumber && content.Length == 1) return false;
         switch (type)
         {
             case FunctionType.Before:
+                //  (n + before N) -> true
                 if (isNumber)
                 {
                     return (card.GetNumber() < numberValue);
                 }
+                //  (l + before L) -> true
                 return (value.CompareTo(card.GetContent()) > 0);
             case FunctionType.After:
+                //  (N + after n) -> true 
                 if (isNumber)
                 {
                     return (card.GetNumber() > numberValue);
                 }
+                //  (L + after l) -> true
                 return (value.CompareTo(card.GetContent()) < 0);
             case FunctionType.Is:
                 if (isNumber)
                 {
+                    //      (N + is N || N + is number) -> true
                     return (card.GetNumber() == numberValue) || (value.CompareTo("Number") == 0);
                 }
-                else if (value.Length == 1)
+                if (value.Length == 1)
                 {
+                    //      (L + is L) -> true
                     return (value.CompareTo(card.GetContent()) == 0);
                 }
-                else if (value.CompareTo("Letter") == 0)
+                if (value.CompareTo("Letter") == 0)
                 {
+                    //      (L + is letter) -> true
                     return true;
                 }
                 return card.GetColor() == color;

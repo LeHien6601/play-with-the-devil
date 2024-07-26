@@ -90,7 +90,7 @@ public class TableManager : MonoBehaviour
         SoulController.instance.GenerateSouls(numberOfSouls);
         numFakeCardsTMP.text = "Number of fake cards: " + numberOfFakeCards.ToString();
     }
-    
+
     //      Update initial level's data
     private void UpdateLevelData()
     {
@@ -366,7 +366,7 @@ public class TableManager : MonoBehaviour
             }
         }
         //Turn on interactable ability for tfBtn
-        tfBTN.interactable = true;
+        CheckTFButtonCondition();
     }
 
     private IEnumerator ResetAllFunctionalCards(float delay)
@@ -377,7 +377,11 @@ public class TableManager : MonoBehaviour
             if (cell.containCard) cell.card.CardFade();
         }
         yield return new WaitForSeconds(3f);
-        functionalCells.Clear();
+        while (functionalCells.Count > 0)
+        {
+            Destroy(functionalCells[0].card.gameObject);
+            functionalCells.RemoveAt(0);
+        }
         SetUpFunctionalCards();
         StartCoroutine(DealFunctionalCards(delay));
     }

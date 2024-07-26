@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NormalCard : Card
@@ -14,11 +15,12 @@ public class NormalCard : Card
         this.isNumber = int.TryParse(content, out numberContent);
         this.color = color;
         this.contentTMP.text = content;
-        this.contentTMP.color = color;
+        this.contentTMP.faceColor = color;
         if (isFake)
         {
             this.contentTMP.fontSize = 0.55f;
         }
+        Debug.Log(GetColorName(this.contentTMP.faceColor));
     }
     public string GetContent()
     {
