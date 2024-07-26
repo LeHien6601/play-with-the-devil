@@ -86,6 +86,7 @@ public class FunctionalCard : Card
     {
         if (!isSelectable) return;
         this.isSelected = !isSelected;
+        SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.CardClick);
         if (isSelected)
         {
             GetComponentInParent<TableManager>().SelectFunctionalCell(this);

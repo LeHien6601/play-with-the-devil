@@ -18,4 +18,21 @@ public class SubGameManager : MonoBehaviour
     {
         GameManager.instance.LoadLevel(GameManager.instance.CurrentLevel());
     }
+
+    public void PlayButtonHoverSound()
+    {
+        SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.ButtonHover);
+    }
+    public void PlayButtonClickSound()
+    {
+        SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.ButtonClick);
+    }
+    public void PlayOpenLevelSound()
+    {
+        SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.LevelOpen);
+    }
+    public void PlayCloseLevelSound()
+    {
+        SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.LevelClose);
+    }
 }

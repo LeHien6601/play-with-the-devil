@@ -34,6 +34,7 @@ public class NormalCard : Card
     {
         if (!isSelectable) return;
         this.isSelected = !isSelected;
+        SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.CardClick);
         if (isSelected)
         {
             GetComponentInParent<TableManager>().SelectCell(this);

@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
         currentLevel = level;
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(level);
+        SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.LevelOpen);
         DontDestroyOnLoad(gameObject);
     }
     public void QuitGame()
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         PlayerController.instance.WinGameAction();
         DevilController.instance.WinGameAction();
+        SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.Win);
         //Next level or main menu
     }
 
@@ -65,6 +67,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         PlayerController.instance.LoseGameAction();
         DevilController.instance.LoseGameAction();
+        SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.Lose);
         //Restart or main menu
     }
 
