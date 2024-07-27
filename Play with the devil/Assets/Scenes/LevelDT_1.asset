@@ -15,10 +15,10 @@ MonoBehaviour:
   row: 2
   column: 5
   numberOfFakeCards: 2
-  numberOfFunctionalCards: 7
+  numberOfFunctionalCards: 6
   limitContent: 5
   limitColor: 5
-  showCardTime: 50
+  showCardTime: 10
   numberOfSwapedPairs: 0
   numberOfSouls: 20
   switchTF: 0

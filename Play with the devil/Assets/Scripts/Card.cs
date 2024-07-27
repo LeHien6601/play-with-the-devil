@@ -110,7 +110,6 @@ public class Card : MonoBehaviour
         if (!isSelectable) return;
         transform.localScale = initialScale * 1.05f;
         SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.CardHover);
-        //play sfx
     }
     private void OnMouseExit()
     {

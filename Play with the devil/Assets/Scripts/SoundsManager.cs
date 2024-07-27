@@ -31,7 +31,8 @@ public class SoundsManager : MonoBehaviour
         Win,
         Lose,
         SlimeTalk,
-        DevilSlime
+        DevilTalk,
+        ClockTick
     }
     private void Awake()
     {
@@ -44,7 +45,7 @@ public class SoundsManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    private AudioClip GetAudioClip(SoundType type)
+    public AudioClip GetAudioClip(SoundType type)
     {
         for (int i = 0; i < sounds.Length; i++)
         {
@@ -58,7 +59,14 @@ public class SoundsManager : MonoBehaviour
     }
     public IEnumerator PlaySlimeTalkSound(float duration)
     {
-        slimeAudioSource.PlayScheduled(duration);
-        yield return null;
+        slimeAudioSource.Play();
+        yield return new WaitForSeconds(duration);
+        slimeAudioSource.Stop();
+    }
+    public IEnumerator PlayDevilTalkSound(float duration)
+    {
+        devilAudioSource.Play();
+        yield return new WaitForSeconds(duration);
+        devilAudioSource.Stop();
     }
 }

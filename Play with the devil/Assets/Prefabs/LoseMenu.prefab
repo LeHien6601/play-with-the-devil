@@ -346,6 +346,7 @@ GameObject:
   - component: {fileID: 3624912987472202968}
   - component: {fileID: 5997313520389196539}
   - component: {fileID: 5985486519932732303}
+  - component: {fileID: 8150753242413724174}
   m_Layer: 5
   m_Name: MainMenu BTN
   m_TagString: Untagged
@@ -479,6 +480,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d69785cdaa0fe74885c7a33b9bd291b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8150753242413724174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4446101205551734717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: 
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: 
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &7333406631542076374
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,6 +672,7 @@ GameObject:
   - component: {fileID: 8395995745326753540}
   - component: {fileID: 4087929055730852675}
   - component: {fileID: 8360678178854362013}
+  - component: {fileID: 5318203198878588647}
   m_Layer: 5
   m_Name: Restart BTN
   m_TagString: Untagged
@@ -759,6 +806,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d69785cdaa0fe74885c7a33b9bd291b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5318203198878588647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8287868722848186640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8360678178854362013}
+          m_TargetAssemblyTypeName: SubGameManager, Assembly-CSharp
+          m_MethodName: PlayButtonHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8360678178854362013}
+          m_TargetAssemblyTypeName: SubGameManager, Assembly-CSharp
+          m_MethodName: PlayButtonClickSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &8398805243369445658
 GameObject:
   m_ObjectHideFlags: 0

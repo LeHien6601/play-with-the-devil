@@ -20,7 +20,6 @@ public class NormalCard : Card
         {
             this.contentTMP.fontSize = 0.55f;
         }
-        Debug.Log(GetColorName(this.contentTMP.faceColor));
     }
     public string GetContent()
     {

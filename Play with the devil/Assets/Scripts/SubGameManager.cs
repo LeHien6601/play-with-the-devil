@@ -27,6 +27,10 @@ public class SubGameManager : MonoBehaviour
     {
         SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.ButtonClick);
     }
+    public void PlayNoteHoverSound()
+    {
+        SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.CardHover);
+    }
     public void PlayOpenLevelSound()
     {
         SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.LevelOpen);

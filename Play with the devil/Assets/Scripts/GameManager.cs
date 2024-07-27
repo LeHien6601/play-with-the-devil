@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         PlayerController.instance.WinGameAction();
         DevilController.instance.WinGameAction();
+        StartCoroutine(SoundsManager.instance.PlayDevilTalkSound(3.5f));
+        StartCoroutine(SoundsManager.instance.PlaySlimeTalkSound(3.5f));
         SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.Win);
         //Next level or main menu
     }
@@ -67,6 +69,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         PlayerController.instance.LoseGameAction();
         DevilController.instance.LoseGameAction();
+        StartCoroutine(SoundsManager.instance.PlayDevilTalkSound(3.5f));
+        StartCoroutine(SoundsManager.instance.PlaySlimeTalkSound(3.5f));
         SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.Lose);
         //Restart or main menu
     }
@@ -75,8 +79,10 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         DevilController.instance.GiveTrueFalseResultAction();
+        StartCoroutine(SoundsManager.instance.PlayDevilTalkSound(3.5f));
         yield return new WaitForSeconds(1f);
         PlayerController.instance.NormalResponseAction();
+        StartCoroutine(SoundsManager.instance.PlaySlimeTalkSound(3.5f));
     }
 
     public IEnumerator SetUseCardState(bool isTrue)
@@ -84,14 +90,17 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         DevilController.instance.IncreaseNumberOfTF(isTrue);
         DevilController.instance.NormalResponseAction();
+        StartCoroutine(SoundsManager.instance.PlayDevilTalkSound(3.5f));
     }
 
     public IEnumerator SetWrongAnswerState()
     {
         yield return new WaitForSeconds(1f);
         DevilController.instance.ResponeAnswerAction(false);
+        StartCoroutine(SoundsManager.instance.PlayDevilTalkSound(3f));
         yield return new WaitForSeconds(1f);
         PlayerController.instance.AnswerWrongAction();
+        StartCoroutine(SoundsManager.instance.PlaySlimeTalkSound(3.5f));
     }
 
     public IEnumerator SetRemindSwapCardsState(float delay)
@@ -100,5 +109,6 @@ public class GameManager : MonoBehaviour
         DevilController.instance.RemindSwapCardsAction();
         yield return new WaitForSeconds(1f);
         PlayerController.instance.NormalResponseAction();
+        StartCoroutine(SoundsManager.instance.PlaySlimeTalkSound(3.5f));
     }
 }
