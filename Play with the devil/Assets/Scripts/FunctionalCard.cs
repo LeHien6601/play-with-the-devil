@@ -62,7 +62,7 @@ public class FunctionalCard : Card
                 if (isNumber)
                 {
                     //      (N + is N || N + is number) -> true
-                    return (card.GetNumber() == numberValue) || (value.CompareTo("Number") == 0);
+                    return card.IsNumber() && (card.GetNumber() == numberValue) || (value.CompareTo("Number") == 0);
                 }
                 if (value.Length == 1)
                 {
@@ -99,62 +99,44 @@ public class FunctionalCard : Card
         }
     }
 
-    public void CreateRandomFunctionalCard(int limitContent, int limitColor)
+    public void CreateRandomFunctionalCard(int limitContent, int limitColor, Dictionary<string, float> rates)
     {
-        if (limitColor > 1)
+        float r = Random.Range(0f, rates["isNumberLetter"] + rates["isSpecificNumberLetter"] + rates["isBeforeAfter"] + rates["isFake"] + rates["isColor"]);
+        if (r < rates["isFake"])
         {
-            int index = Random.Range(0, 10);
-            if (index == 0)
-            {
-                CreateFunctionalFakeCard();
-            }
-            else if (index >= 1 && index <= 3)
-            {
-                CreateFunctionalLetterCard(limitContent);
-            }
-            else if (index >= 4 && index <= 6)
-            {
-                CreateFunctionalNumberCard(limitContent);
-            }
-            else
-            {
-                CreateFunctionalColorCard(limitColor);
-            }
+            CreateFunctionalFakeCard();
+            return;
         }
-        else
+        if (r < rates["isFake"] + rates["isNumberLetter"] + rates["isSpecificNumberLetter"] + rates["isBeforeAfter"])
         {
-            int index = Random.Range(0, 9);
-            if (index == 0)
-            {
-                CreateFunctionalFakeCard();
-            }
-            else if (index >= 1 && index <= 4)
-            {
-                CreateFunctionalLetterCard(limitContent);
-            }
+            int ran = Random.Range(0, 2);
+            if (ran == 0)
+                CreateFunctionalLetterCard(limitContent, rates);
             else
-            {
-                CreateFunctionalNumberCard(limitContent);
-            }
+                CreateFunctionalNumberCard(limitContent, rates);
+            return;
         }
+        CreateFunctionalColorCard(limitColor);
     }
-    public void CreateFunctionalLetterCard(int limitContent)
+    public void CreateFunctionalLetterCard(int limitContent, Dictionary<string, float> rates)
     {
-        float index = Random.Range(0f, 5f);
-        if (index < 4f)
+        float r = Random.Range(0f, rates["isNumberLetter"] + rates["isSpecificNumberLetter"]);
+        if (r < rates["isNumberLetter"])
         {
             UpdateData(FunctionType.Is, "Letter", new Color(0.6f, 0f, 0.2f));
+            return;
         }
-        else UpdateData(GetRandomFunctionType(), GetRandomLetter(limitContent), new Color(0.6f, 0f, 0.2f));
+        UpdateData(GetRandomFunctionType(rates), GetRandomLetter(limitContent), new Color(0.6f, 0f, 0.2f));
     }
-    public void CreateFunctionalNumberCard(int limitContent)
+    public void CreateFunctionalNumberCard(int limitContent, Dictionary<string, float> rates)
     {
-        float index = Random.Range(0f, 5f);
-        if (index < 4f)
+        float r = Random.Range(0f, rates["isNumberLetter"] + rates["isSpecificNumberLetter"]);
+        if (r < rates["isNumberLetter"])
         {
             UpdateData(FunctionType.Is, "Number", new Color(0.4f, 0.2f, 0f));
+            return;
         }
-        else UpdateData(GetRandomFunctionType(), GetRandomNumber(limitContent), new Color(0.4f, 0.2f, 0f));
+        UpdateData(GetRandomFunctionType(rates), GetRandomNumber(limitContent), new Color(0.4f, 0.2f, 0f));
     }
     public void CreateFunctionalColorCard(int limitColor)
     {
@@ -166,19 +148,11 @@ public class FunctionalCard : Card
         UpdateData(FunctionType.IsFake, "Is fake", Color.gray);
     }
 
-    public FunctionType GetRandomFunctionType()
+    public FunctionType GetRandomFunctionType(Dictionary<string, float> rates)
     {
-        int index = Random.Range(0, 3);
-        switch (index)
-        {
-            case 0:
-                return FunctionType.Before;
-            case 1:
-                return FunctionType.After;
-            case 2:
-                return FunctionType.Is;
-            default:
-                return FunctionType.Is;
-        }
+        float r = Random.Range(0f, rates["isSpecificNumberLetter"] + rates["isBeforeAfter"]);
+        if (r < rates["isBeforeAfter"] / 2f) return FunctionType.After;
+        if (r < rates["isBeforeAfter"]) return FunctionType.Before;
+        return FunctionType.Is;
     }
 }

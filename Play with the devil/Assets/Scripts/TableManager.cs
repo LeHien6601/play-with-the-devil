@@ -30,6 +30,7 @@ public class TableManager : MonoBehaviour
     private int numberOfSwapedPairs;
     private int numberOfSouls;
     private bool switchTF;
+    private Dictionary<string, float> rateOfFunctionalCards;
 
     [Header("UI")]
     [SerializeField] private Button startBtn;
@@ -104,6 +105,14 @@ public class TableManager : MonoBehaviour
         numberOfSwapedPairs = levelData.numberOfSwapedPairs;
         numberOfSouls = levelData.numberOfSouls;
         switchTF = levelData.switchTF;
+        rateOfFunctionalCards = new Dictionary<string, float>()
+        {
+            {"isFake", levelData.rateOfIsFakeCards},
+            {"isNumberLetter",  levelData.rateOfIsNumberOrLetterCards},
+            {"isSpecificNumberLetter", levelData.rateOfIsSpecificNumberOrLetterCards},
+            {"isBeforeAfter", levelData.rateOfBeforeAfterNumberOrLetterCards},
+            {"isColor", levelData.rateOfColorCards}
+        };
     }
     //      Turn of selectable ability for all elements
     private void TurnOffSelectableAbility()
@@ -319,7 +328,7 @@ public class TableManager : MonoBehaviour
         {
             Vector2 position = new Vector2(startPosition.x + i * cardDistance, startPosition.y);
             FunctionalCard card = Instantiate(functionalCardPref, startPosition, Quaternion.identity, transform);
-            card.CreateRandomFunctionalCard(limitContent, limitColor);
+            card.CreateRandomFunctionalCard(limitContent, limitColor, rateOfFunctionalCards);
             functionalCells.Add(new FunctionalCell(true, card, position));
         }
     }
@@ -557,9 +566,10 @@ public class TableManager : MonoBehaviour
         }
         else
         {
-            if (SoulController.instance.NumberOfSouls() == 0)
+            if (SoulController.instance.NumberOfSouls() <= 1)
             {
                 //Lose game
+                SoulController.instance.LoseOneSoul();
                 TurnOffSelectableAbility();
                 StartCoroutine(TurnAllNormalCards(0.2f, true));
                 StartCoroutine(GameManager.instance.SetLoseState());
@@ -569,6 +579,7 @@ public class TableManager : MonoBehaviour
             {
                 //Wrong answer
                 StartCoroutine(GameManager.instance.SetWrongAnswerState());
+                SoulController.instance.LoseOneSoul();
                 SoulController.instance.LoseOneSoul();
                 CheckTFButtonCondition();
             }

@@ -12,13 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04203b8d84d86c149971bd0fffe328d3, type: 3}
   m_Name: LevelDT_1
   m_EditorClassIdentifier: 
-  row: 2
-  column: 5
-  numberOfFakeCards: 2
-  numberOfFunctionalCards: 6
-  limitContent: 5
-  limitColor: 5
-  showCardTime: 10
+  row: 1
+  column: 4
+  numberOfFakeCards: 1
+  numberOfFunctionalCards: 3
+  limitContent: 3
+  limitColor: 1
+  showCardTime: 15
   numberOfSwapedPairs: 0
-  numberOfSouls: 20
+  numberOfSouls: 2
   switchTF: 0
+  rateOfIsFakeCards: 1
+  rateOfIsNumberOrLetterCards: 5
+  rateOfIsSpecificNumberOrLetterCards: 0
+  rateOfBeforeAfterNumberOrLetterCards: 0
+  rateOfColorCards: 0

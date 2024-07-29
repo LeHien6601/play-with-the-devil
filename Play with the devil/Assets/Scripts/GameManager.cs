@@ -43,6 +43,22 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(level);
         SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.LevelOpen);
+        if (level == 0)
+        {
+            MusicsManager.instance.PlayMusic(MusicsManager.MusicType.MainMenu);
+        }
+        else if (level <= 8)
+        {
+            MusicsManager.instance.PlayMusic(MusicsManager.MusicType.EasyLevel);
+        }
+        else if (level <= 16)
+        {
+            MusicsManager.instance.PlayMusic(MusicsManager.MusicType.MediumLevel);
+        }
+        else
+        {
+            MusicsManager.instance.PlayMusic(MusicsManager.MusicType.HardLevel);
+        }
         DontDestroyOnLoad(gameObject);
     }
     public void QuitGame()
@@ -59,6 +75,7 @@ public class GameManager : MonoBehaviour
         DevilController.instance.WinGameAction();
         StartCoroutine(SoundsManager.instance.PlayDevilTalkSound(3.5f));
         StartCoroutine(SoundsManager.instance.PlaySlimeTalkSound(3.5f));
+        MusicsManager.instance.StopMusic();
         SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.Win);
         //Next level or main menu
     }
@@ -71,6 +88,7 @@ public class GameManager : MonoBehaviour
         DevilController.instance.LoseGameAction();
         StartCoroutine(SoundsManager.instance.PlayDevilTalkSound(3.5f));
         StartCoroutine(SoundsManager.instance.PlaySlimeTalkSound(3.5f));
+        MusicsManager.instance.StopMusic();
         SoundsManager.instance.PlaySoundOneShot(SoundsManager.SoundType.Lose);
         //Restart or main menu
     }

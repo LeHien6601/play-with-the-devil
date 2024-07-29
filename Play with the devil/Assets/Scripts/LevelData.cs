@@ -15,4 +15,9 @@ public class LevelData : ScriptableObject
     public int numberOfSwapedPairs;
     public int numberOfSouls;
     public bool switchTF;
+    public float rateOfIsFakeCards;
+    public float rateOfIsNumberOrLetterCards;
+    public float rateOfIsSpecificNumberOrLetterCards;
+    public float rateOfBeforeAfterNumberOrLetterCards;
+    public float rateOfColorCards;
 }
