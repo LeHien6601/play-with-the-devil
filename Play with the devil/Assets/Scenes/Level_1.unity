@@ -642,7 +642,6 @@ GameObject:
   - component: {fileID: 146638087}
   - component: {fileID: 146638086}
   - component: {fileID: 146638085}
-  - component: {fileID: 146638084}
   - component: {fileID: 146638083}
   m_Layer: 5
   m_Name: Introduction BTN
@@ -688,18 +687,6 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 146638084}
-          m_TargetAssemblyTypeName: UIDescriptionHandler, Assembly-CSharp
-          m_MethodName: TurnDescriptionBox
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
         - m_Target: {fileID: 705173293}
           m_TargetAssemblyTypeName: SubGameManager, Assembly-CSharp
           m_MethodName: PlayButtonHoverSound
@@ -711,22 +698,6 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 146638084}
-          m_TargetAssemblyTypeName: UIDescriptionHandler, Assembly-CSharp
-          m_MethodName: TurnDescriptionBox
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
           m_CallState: 2
   - eventID: 4
     callback:
@@ -744,19 +715,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &146638084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146638081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 963544c763694d143ae1205274480c8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  descriptionBox: {fileID: 0}
 --- !u!114 &146638085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1623,7 +1581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2986327900686727208, guid: 203e3028615613540aacb0288c2eec20, type: 3}
       propertyPath: m_text
-      value: Use your cards then check T/F Ratio with the devil to find fake card
+      value: Use your cards then check T/F Ratio with the devil to find fake cards
       objectReference: {fileID: 0}
     - target: {fileID: 3346976572499359573, guid: 203e3028615613540aacb0288c2eec20, type: 3}
       propertyPath: m_Name
@@ -7865,8 +7823,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2986327900686727208, guid: 203e3028615613540aacb0288c2eec20, type: 3}
       propertyPath: m_text
-      value: You have 15 seconds to remember all the cards on the table after start
-        the game
+      value: You have 15 seconds to remember all the cards after pressing start button
       objectReference: {fileID: 0}
     - target: {fileID: 3346976572499359573, guid: 203e3028615613540aacb0288c2eec20, type: 3}
       propertyPath: m_Name

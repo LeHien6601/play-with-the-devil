@@ -131,7 +131,7 @@ public class Card : MonoBehaviour
     {
         return cardColors[Random.Range(0, limit) % cardColors.Length];
     }
-    public Color[] cardColors = { Color.white, Color.green, Color.blue, Color.yellow, Color.red, Color.black };
+    public Color[] cardColors = { Color.white, new Color(0f, 150f, 0f), new Color(0f, 60f, 190f), new Color(215f,190f,0f), new Color(210f,0f,0f), new Color(40f,0f,0f)};
     public string[] cardColorNames = { "White", "Green", "Blue", "Yellow", "Red", "Black" };
     public Color GetColorByName(string name)
     {
