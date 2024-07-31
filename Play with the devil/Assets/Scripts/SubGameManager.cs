@@ -18,6 +18,10 @@ public class SubGameManager : MonoBehaviour
     {
         GameManager.instance.LoadLevel(GameManager.instance.CurrentLevel());
     }
+    public void QuitGame()
+    {
+        GameManager.instance.QuitGame();
+    }
 
     public void PlayButtonHoverSound()
     {

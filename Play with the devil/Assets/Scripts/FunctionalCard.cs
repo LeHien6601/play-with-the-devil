@@ -10,7 +10,7 @@ public class FunctionalCard : Card
     private string value;
     private bool isNumber;
     private int numberValue;
-    public void UpdateData(FunctionType type, string value, Color color)
+    public void UpdateData(FunctionType type, string value, Color32 color)
     {
         if (type == FunctionType.IsFake)
         {
@@ -24,7 +24,7 @@ public class FunctionalCard : Card
         this.value = value;
         this.isNumber = int.TryParse(value, out numberValue) || (value.CompareTo("Number") == 0);
         this.color = color;
-        this.contentTMP.color = color;
+        this.contentTMP.faceColor = color;
         this.contentTMP.text = content;
     }
 
@@ -62,7 +62,7 @@ public class FunctionalCard : Card
                 if (isNumber)
                 {
                     //      (N + is N || N + is number) -> true
-                    return card.IsNumber() && (card.GetNumber() == numberValue) || (value.CompareTo("Number") == 0);
+                    return card.IsNumber() && (card.GetNumber() == numberValue || value.CompareTo("Number") == 0);
                 }
                 if (value.Length == 1)
                 {
@@ -72,9 +72,9 @@ public class FunctionalCard : Card
                 if (value.CompareTo("Letter") == 0)
                 {
                     //      (L + is letter) -> true
-                    return true;
+                    return !card.IsNumber();
                 }
-                return card.GetColor() == color;
+                return (card.GetColor().r == color.r && card.GetColor().g == color.g && card.GetColor().b == color.b);
             case FunctionType.IsFake:
                 return card.IsFake();
 
@@ -123,20 +123,20 @@ public class FunctionalCard : Card
         float r = Random.Range(0f, rates["isNumberLetter"] + rates["isSpecificNumberLetter"]);
         if (r < rates["isNumberLetter"])
         {
-            UpdateData(FunctionType.Is, "Letter", new Color(0.6f, 0f, 0.2f));
+            UpdateData(FunctionType.Is, "Letter", new Color32(153, 0, 51, 255));
             return;
         }
-        UpdateData(GetRandomFunctionType(rates), GetRandomLetter(limitContent), new Color(0.6f, 0f, 0.2f));
+        UpdateData(GetRandomFunctionType(rates), GetRandomLetter(limitContent), new Color32(153, 0, 51, 255));
     }
     public void CreateFunctionalNumberCard(int limitContent, Dictionary<string, float> rates)
     {
         float r = Random.Range(0f, rates["isNumberLetter"] + rates["isSpecificNumberLetter"]);
         if (r < rates["isNumberLetter"])
         {
-            UpdateData(FunctionType.Is, "Number", new Color(0.4f, 0.2f, 0f));
+            UpdateData(FunctionType.Is, "Number", new Color32(102, 51, 0, 255));
             return;
         }
-        UpdateData(GetRandomFunctionType(rates), GetRandomNumber(limitContent), new Color(0.4f, 0.2f, 0f));
+        UpdateData(GetRandomFunctionType(rates), GetRandomNumber(limitContent), new Color32(102, 51, 0, 255));
     }
     public void CreateFunctionalColorCard(int limitColor)
     {
@@ -145,7 +145,7 @@ public class FunctionalCard : Card
     }
     public void CreateFunctionalFakeCard()
     {
-        UpdateData(FunctionType.IsFake, "Is fake", Color.gray);
+        UpdateData(FunctionType.IsFake, "Is fake", new Color32(128, 128, 128, 255));
     }
 
     public FunctionType GetRandomFunctionType(Dictionary<string, float> rates)

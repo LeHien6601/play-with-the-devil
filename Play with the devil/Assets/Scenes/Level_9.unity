@@ -5530,8 +5530,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -830, y: 0}
-  m_SizeDelta: {x: 200, y: 700}
+  m_AnchoredPosition: {x: -780, y: 0}
+  m_SizeDelta: {x: 300, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1533003327
 MonoBehaviour:
@@ -7823,7 +7823,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2986327900686727208, guid: 203e3028615613540aacb0288c2eec20, type: 3}
       propertyPath: m_text
-      value: You have 15 seconds to remember all the cards after pressing start button
+      value: You have 40 seconds to remember all the cards after pressing start button
       objectReference: {fileID: 0}
     - target: {fileID: 3346976572499359573, guid: 203e3028615613540aacb0288c2eec20, type: 3}
       propertyPath: m_Name

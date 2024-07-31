@@ -8,7 +8,7 @@ public class NormalCard : Card
     private string content;
     private bool isNumber;
     private int numberContent;
-    public void UpdateData(string content, bool isFake, Color color)
+    public void UpdateData(string content, bool isFake, Color32 color)
     {
         this.content = content;
         SetFake(isFake);
@@ -48,7 +48,7 @@ public class NormalCard : Card
     public void CreateRandomFakeCard()
     {
         int index = Random.Range(0, 2);
-        UpdateData((index == 0) ? "False" : "True", true, Color.gray);
+        UpdateData((index == 0) ? "False" : "True", true, new Color32(128, 128, 128, 255));
     }
     public void CreateRandomNormalCard(int limitContent, int limitColor)
     {
