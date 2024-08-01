@@ -378,6 +378,8 @@ public class TableManager : MonoBehaviour
 
     private IEnumerator ResetAllFunctionalCards(float delay)
     {
+        selectedFunctionalCell = null;
+        CheckUseCardButtonCondition();
         //Fade card
         foreach(FunctionalCell cell in functionalCells)
         {

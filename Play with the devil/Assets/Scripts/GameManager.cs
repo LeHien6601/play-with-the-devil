@@ -20,6 +20,13 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey("currentUnlockedLevel"))
+        {
+            //currentUnlockedLevel = PlayerPrefs.GetInt("currentUnlockedLevel");
+        }
+    }
     public int CurrentLevel() { return currentLevel; }
     public int CurrentUnlockedLevel() {  return currentUnlockedLevel; }
     public void UnlockNewLevel()
@@ -31,11 +38,12 @@ public class GameManager : MonoBehaviour
         else
         {
             currentUnlockedLevel++;
+            PlayerPrefs.SetInt("currentUnlockedLevel", currentUnlockedLevel);
         }
     }
     public void LoadLevel(int level)
     {
-        StartCoroutine(LoadLevelWithDelay(level));
+        StartCoroutine(LoadLevelWithDelay(level%25));
     }
     public IEnumerator LoadLevelWithDelay(int level)
     {

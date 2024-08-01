@@ -304,7 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGameState: 0
   currentLevel: 0
-  currentUnlockedLevel: 18
+  currentUnlockedLevel: 1
   maxLevel: 24
 --- !u!1 &154465900
 GameObject:
