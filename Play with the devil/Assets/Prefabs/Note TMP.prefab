@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3564963513417700741}
   - component: {fileID: 5406151373469105939}
   - component: {fileID: 4486179121088714898}
+  - component: {fileID: 5685811109364504566}
   m_Layer: 5
   m_Name: Note TMP
   m_TagString: Untagged
@@ -195,6 +196,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &5685811109364504566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3346976572499359573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be8c3381ea75e454baca9d20f8bfea81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteTMP: {fileID: 2986327900686727208}
 --- !u!1001 &1465012526026276507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -302,7 +316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8940521004386410168, guid: 0f3b0a0a2f3f1a74ead23cd19982adf3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -314,6 +328,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1533601585980655911, guid: 0f3b0a0a2f3f1a74ead23cd19982adf3, type: 3}
   m_PrefabInstance: {fileID: 1465012526026276507}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2986327900686727208 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4406020470647686835, guid: 0f3b0a0a2f3f1a74ead23cd19982adf3, type: 3}
+  m_PrefabInstance: {fileID: 1465012526026276507}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7514213498492411939 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8940521004386410168, guid: 0f3b0a0a2f3f1a74ead23cd19982adf3, type: 3}

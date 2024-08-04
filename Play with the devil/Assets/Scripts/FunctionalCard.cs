@@ -26,6 +26,8 @@ public class FunctionalCard : Card
         this.color = color;
         this.contentTMP.faceColor = color;
         this.contentTMP.text = content;
+        this.contentTMP.outlineWidth = .2f;
+        this.contentTMP.outlineColor = new Color32((byte)(color.r / 5), (byte)(color.g / 5), (byte)(color.b / 5), 255);
     }
 
     public enum FunctionType

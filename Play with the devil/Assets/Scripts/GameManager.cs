@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("currentUnlockedLevel"))
         {
-            //currentUnlockedLevel = PlayerPrefs.GetInt("currentUnlockedLevel");
+            currentUnlockedLevel = PlayerPrefs.GetInt("currentUnlockedLevel");
         }
     }
     public int CurrentLevel() { return currentLevel; }
@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     }
     public void LoadLevel(int level)
     {
+        Time.timeScale = 1;
         StartCoroutine(LoadLevelWithDelay(level%25));
     }
     public IEnumerator LoadLevelWithDelay(int level)

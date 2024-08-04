@@ -16,6 +16,8 @@ public class NormalCard : Card
         this.color = color;
         this.contentTMP.text = content;
         this.contentTMP.faceColor = color;
+        this.contentTMP.outlineWidth = .2f;
+        this.contentTMP.outlineColor = new Color32((byte)(color.r / 10), (byte)(color.g / 10), (byte)(color.b / 10), 255);
         if (isFake)
         {
             this.contentTMP.fontSize = 0.55f;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TableManager : MonoBehaviour
@@ -17,6 +18,7 @@ public class TableManager : MonoBehaviour
     [SerializeField] private FunctionalCard functionalCardPref;
 
     [Header("Game's information")]
+    [SerializeField] private LevelData[] levelDataList;
     [SerializeField] private LevelData levelData;
     private int row = 1;
     private int column = 1;
@@ -39,6 +41,7 @@ public class TableManager : MonoBehaviour
     [SerializeField] private Clock clock;
     [SerializeField] private GameObject winMenu;
     [SerializeField] private GameObject loseMenu;
+    [SerializeField] private NotesManager notesManager;
 
     private List<NormalCell> cells = new List<NormalCell>();
     private List<NormalCell> selectedCells = new List<NormalCell>();
@@ -93,6 +96,7 @@ public class TableManager : MonoBehaviour
     //      Update initial level's data
     private void UpdateLevelData()
     {
+        levelData = levelDataList[SceneManager.GetActiveScene().buildIndex - 1];
         row = levelData.row;
         column = levelData.column;
         numberOfFakeCards = levelData.numberOfFakeCards;
@@ -111,6 +115,7 @@ public class TableManager : MonoBehaviour
             {"isBeforeAfter", levelData.rateOfBeforeAfterNumberOrLetterCards},
             {"isColor", levelData.rateOfColorCards}
         };
+        notesManager.SetNotes(showCardTime, switchTF, numberOfSwapedPairs != 0);
     }
     //      Turn of selectable ability for all elements
     private void TurnOffSelectableAbility()
